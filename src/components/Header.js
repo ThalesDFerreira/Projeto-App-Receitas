@@ -1,15 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-  <Header hasSearch />;
-
 function Header() {
-  const { titlePage, hasSearch } = useContext();
   const history = useHistory();
   const [showSearchBar, setShowSearchBar] = useState(false);
+  const hasSearch = true;
 
   return (
     <div>
@@ -23,12 +21,12 @@ function Header() {
           data-testid="profile-top-btn"
         />
       </button>
-      <p>{titlePage}</p>
+      <p>titlePage</p>
       {hasSearch
       && (
         <button
           type="button"
-          onClick={ setShowSearchBar(!showSearchBar) }
+          onClick={ () => setShowSearchBar(!showSearchBar) }
         >
           <img
             src={ searchIcon }
