@@ -19,8 +19,8 @@ function Login() {
           type="email"
           id="email"
           data-testid="email-input"
-          onChange={ handleChangeEmail }
-          value={ email }
+          // onChange={ handleChangeEmail }
+          // value={ email }
         />
       </label>
       <br />
@@ -38,7 +38,7 @@ function Login() {
       <button
         type="button"
         data-testid="login-submit-btn"
-        disabled={ buttonDisabled }
+        // disabled={ buttonDisabled }
         // onClick={ this.handleClick }
       >
         Entrar
