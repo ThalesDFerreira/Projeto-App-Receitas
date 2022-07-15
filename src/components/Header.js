@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-function Header() {
+function Header({ titlePage, hasSearch }) {
   const history = useHistory();
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const hasSearch = true;
 
   return (
     <div>
@@ -21,7 +21,7 @@ function Header() {
           data-testid="profile-top-btn"
         />
       </button>
-      <p>titlePage</p>
+      <p>{titlePage}</p>
       {hasSearch
       && (
         <button
@@ -40,5 +40,10 @@ function Header() {
     </div>
   );
 }
+
+Header.propTypes = {
+  titlePage: PropTypes.string.isRequired,
+  hasSearch: PropTypes.bool.isRequired,
+};
 
 export default Header;

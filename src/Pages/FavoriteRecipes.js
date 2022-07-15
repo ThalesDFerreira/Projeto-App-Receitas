@@ -1,10 +1,10 @@
 import React from 'react';
+import Header from '../components/Header';
 
 function FavoriteRecipes() {
   return (
-    <p>
-      FavoriteRecipes
-    </p>
+    <Header titlePage="Favorite Recipes" hasSearch={ false } />
+
   );
 }
 
