@@ -1,30 +1,9 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import MyContext from '../context/MyContext';
 
 function Login() {
-  const [state, setState] = useState({
-    email: '',
-    password: '',
-  });
+  const { handleChange, isDisabled, handleSubmit } = useContext(MyContext);
 
-  const [disable, setEnabled] = useState(false);
-
-  const handleChange = ({ target }) => {
-    const { name, value } = target;
-    setState({ ...state, [name]: value });
-    enableButton(); // retorna a funcao enable e muda o estado.
-  };
-
-  enableButton = () => {
-    const { password, email } = state; // mudar o estado
-    const minCharacters = 6;
-    const regex = /\S+@\S+\.\S+/;
-    if (password.length >= minCharacters // se a senha for maior ou igual a 6, e conferindo se o email e um email
-      && regex.test(email)) {
-      setEnabled(true);
-    } else {
-      setEnabled(false);
-    }
-  };
   return (
     <div>
       <h1>Login</h1>
@@ -35,6 +14,7 @@ function Login() {
           type="email"
           id="email"
           data-testid="email-input"
+          name="email"
           onChange={ handleChange }
         />
       </label>
@@ -45,15 +25,16 @@ function Login() {
           type="password"
           id="senha"
           data-testid="password-input"
+          name="password"
           onChange={ handleChange }
-          // value={ senha } mesma coisa
         />
       </label>
       <br />
       <button
         type="button"
         data-testid="login-submit-btn"
-        disabled={ disable }
+        disabled={ isDisabled }
+        onClick={ handleSubmit }
       >
         Entrar
       </button>
