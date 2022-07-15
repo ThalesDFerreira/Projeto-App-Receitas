@@ -1,13 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
 
-  <Header hasSearch />;
-
-function Header() {
-  const { titlePage, hasSearch } = useContext();
+function Header({ titlePage, hasSearch }) {
   const history = useHistory();
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -28,7 +26,7 @@ function Header() {
       && (
         <button
           type="button"
-          onClick={ setShowSearchBar(!showSearchBar) }
+          onClick={ () => setShowSearchBar(!showSearchBar) }
         >
           <img
             src={ searchIcon }
@@ -42,5 +40,10 @@ function Header() {
     </div>
   );
 }
+
+Header.propTypes = {
+  titlePage: PropTypes.string.isRequired,
+  hasSearch: PropTypes.bool.isRequired,
+};
 
 export default Header;
