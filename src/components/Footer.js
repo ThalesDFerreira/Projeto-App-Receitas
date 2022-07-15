@@ -8,11 +8,13 @@ function Footer() {
   const { setTypeFood } = useContext(MyContext);
   const history = useHistory();
   return (
-    <footer data-testid="footer">
+    <footer data-testid="footer" className="w-100 fixed-bottom">
       <button
         type="button"
         onClick={ () => { setTypeFood('drink'); history.push('/drinks'); } }
         data-testid="drinks-bottom-btn"
+        src={ drinkIcon }
+
       >
         <img
           src={ drinkIcon }
@@ -22,7 +24,9 @@ function Footer() {
       <button
         type="button"
         onClick={ () => { setTypeFood('food'); history.push('/foods'); } }
-        testid="food-bottom-btn"
+        data-testid="food-bottom-btn"
+        src={ mealIcon }
+
       >
         <img
           src={ mealIcon }
