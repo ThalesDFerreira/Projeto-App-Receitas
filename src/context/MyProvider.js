@@ -4,17 +4,43 @@ import { useHistory } from 'react-router-dom';
 import MyContext from './MyContext';
 
 function MyProvider({ children }) {
-  // const [email, setEmail] = useState('');
-  // const context = {
-  //   email,
-  // };
-
+  const [userData, setUserData] = useState({
+    email: '',
+    password: '',
+  });
+  const [isDisabled, setIsDisabled] = useState(true);
   const [inputSearch, setInputSearch] = useState('');
   const [filterRecipe, setFilterRecipe] = useState('Ingredient');
   const [data, setData] = useState([]);
   const [dataFiltered, setDataFiltered] = useState([]);
   const [typeFood, setTypeFood] = useState('food');
   const history = useHistory();
+
+  const enableButton = () => {
+    const minCharacters = 6;
+    const regex = /\S+@\S+\.\S+/;
+    if (userData.password.length >= minCharacters
+      && regex.test(userData.email)) {
+      setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    enableButton();
+  }, [userData]);
+
+  const handleChange = ({ target: { name, value } }) => {
+    setUserData({ ...userData, [name]: value });
+  };
+
+  const handleSubmit = () => {
+    localStorage.setItem('user', JSON.stringify({ email: userData.email }));
+    localStorage.setItem('mealsToken', 1);
+    localStorage.setItem('cocktailsToken', 1);
+    history.push('/foods');
+  };
 
   const verifyUrlAPI = () => {
     if (typeFood === 'food') {
@@ -79,11 +105,14 @@ function MyProvider({ children }) {
     typeFood,
     searchMeal,
     handleInputSearch,
+    handleChange,
+    isDisabled,
+    handleSubmit,
   };
 
   return (
     <MyContext.Provider
-      value={ contextValue }
+      value={contextValue}
     >
       {children}
     </MyContext.Provider>);
