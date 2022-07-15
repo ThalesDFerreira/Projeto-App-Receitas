@@ -3,7 +3,10 @@ import MyContext from '../context/MyContext';
 
 function SearchBar() {
   const { inputSearch,
-    fetchAPI, searchMeal, handleInputSearch } = useContext(MyContext);
+    fetchAPISearch,
+    searchMeal,
+    handleInputSearch,
+    handleButtonFilter } = useContext(MyContext);
 
   return (
     <div>
@@ -61,7 +64,8 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
-        onClick={ fetchAPI }
+        name="searchButton"
+        onClick={ (e) => { fetchAPISearch(); handleButtonFilter(e); } }
       >
         Procurar
       </button>
