@@ -1,45 +1,59 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function Login() {
-  // enableButton = () => {
-  //   const { inputName, inputEmail } = useState();
-  //   const minCharacters = 1;
-  //   const regex = /\S+@\S+\.\S+/;
-  //   if (inputName.length >= minCharacters
-  //     && regex.test(inputEmail)) {
-  //     setState({ isEnabled: true });
-  //   } else {
-  //     setState({ isEnabled: false });
-  //   }
-  // };
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [disable, setEnabled] = useState(false);
+
+  const handleChange = ({ target }) => {
+    const { name, value } = target;
+    setState({ ...state, [name]: value });
+    enableButton(); // retorna a funcao enable e muda o estado.
+  };
+
+  enableButton = () => {
+    const { password, email } = state; // mudar o estado
+    const minCharacters = 6;
+    const regex = /\S+@\S+\.\S+/;
+    if (password.length >= minCharacters // se a senha for maior ou igual a 6, e conferindo se o email e um email
+      && regex.test(email)) {
+      setEnabled(true);
+    } else {
+      setEnabled(false);
+    }
+  };
   return (
     <div>
+      <h1>Login</h1>
+      <br />
+      <h1> Email :</h1>
       <label htmlFor="email">
         <input
           type="email"
           id="email"
           data-testid="email-input"
-          // onChange={ handleChangeEmail }
-          // value={ email }
+          onChange={ handleChange }
         />
       </label>
       <br />
+      <h1> Senha :</h1>
       <label htmlFor="senha">
         <input
           type="password"
           id="senha"
           data-testid="password-input"
-          // minLength="6"
-          // onChange={ this.setInput }
-          // value={ senha }
+          onChange={ handleChange }
+          // value={ senha } mesma coisa
         />
       </label>
       <br />
       <button
         type="button"
         data-testid="login-submit-btn"
-        // disabled={ buttonDisabled }
-        // onClick={ this.handleClick }
+        disabled={ disable }
       >
         Entrar
       </button>

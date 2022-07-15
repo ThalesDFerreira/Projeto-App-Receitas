@@ -85,7 +85,6 @@ function MyProvider({ children }) {
     <MyContext.Provider
       value={ contextValue }
     >
-      {' '}
       {children}
     </MyContext.Provider>);
 }
