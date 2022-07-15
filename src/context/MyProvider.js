@@ -42,6 +42,17 @@ function MyProvider({ children }) {
     history.push('/foods');
   };
 
+  const handleDoneRecipes = () => {
+    history.push('/DoneRecipes');
+  };
+  const handleFavoriteRecipes = () => {
+    history.push('/FavoriteRecipes');
+  };
+  const localClear = () => {
+    localStorage.clear();
+    history.push('/');
+  };
+
   const verifyUrlAPI = () => {
     if (typeFood === 'food') {
       if (filterRecipe === 'Ingredient') {
@@ -112,6 +123,10 @@ function MyProvider({ children }) {
     handleChange,
     isDisabled,
     handleSubmit,
+    userData,
+    handleDoneRecipes,
+    handleFavoriteRecipes,
+    localClear,
   };
 
   return (
