@@ -13,7 +13,9 @@ function MyProvider({ children }) {
   const [filterRecipe, setFilterRecipe] = useState('Ingredient');
   const [data, setData] = useState([]);
   const [dataFiltered, setDataFiltered] = useState([]);
+  const [categoriesFilter, setCategoriesFilter] = useState([]);
   const [typeFood, setTypeFood] = useState('food');
+  const [buttonFilter, setButtonFilter] = useState('');
   const history = useHistory();
 
   const enableButton = () => {
@@ -25,6 +27,10 @@ function MyProvider({ children }) {
     } else {
       setIsDisabled(true);
     }
+  };
+
+  const handleButtonFilter = ({ target: { name } }) => {
+    setButtonFilter(name);
   };
 
   useEffect(() => {
@@ -70,7 +76,7 @@ function MyProvider({ children }) {
     return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`;
   };
 
-  const fetchAPI = async () => {
+  const fetchAPISearch = async () => {
     if (filterRecipe === 'First letter' && inputSearch.length > 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
@@ -88,7 +94,7 @@ function MyProvider({ children }) {
     if (dataFiltered === null) {
       return global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
-    if (dataFiltered.length === 1) {
+    if (buttonFilter === 'searchButton' && dataFiltered.length === 1) {
       if (typeFood === 'food') {
         history.push(`/foods/${dataFiltered[0].idMeal}`);
       } else {
@@ -109,11 +115,48 @@ function MyProvider({ children }) {
     setInputSearch(value);
   };
 
+  const fetchAPI = async () => {
+    if (typeFood === 'food') {
+      const resultMeal = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
+        .then((response) => response.json());
+      const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
+        .then((response) => response.json());
+      setData(resultMeal.meals);
+      setDataFiltered(resultMeal.meals);
+      setCategoriesFilter(meals);
+    } else {
+      const resultDrink = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+        .then((response) => response.json());
+      const { drinks } = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list')
+        .then((response) => response.json());
+      setData(resultDrink.drinks);
+      setDataFiltered(resultDrink.drinks);
+      setCategoriesFilter(drinks);
+    }
+  };
+
+  const filterFood = async ({ target: { value } }) => {
+    console.log('to roando');
+    if (typeFood === 'food') {
+      const result = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`)
+        .then((response) => response.json());
+      setDataFiltered(result.meals);
+    } else {
+      const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`)
+        .then((response) => response.json());
+      setDataFiltered(result.drinks);
+    }
+  };
+
+  const resetFood = () => {
+    setDataFiltered(data);
+  };
+
   const contextValue = {
     inputSearch,
     setFilterRecipe,
     setInputSearch,
-    fetchAPI,
+    fetchAPISearch,
     dataFiltered,
     data,
     setTypeFood,
@@ -123,6 +166,11 @@ function MyProvider({ children }) {
     handleChange,
     isDisabled,
     handleSubmit,
+    fetchAPI,
+    categoriesFilter,
+    filterFood,
+    resetFood,
+    handleButtonFilter,
     userData,
     handleDoneRecipes,
     handleFavoriteRecipes,
