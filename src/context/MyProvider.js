@@ -19,7 +19,7 @@ function MyProvider({ children }) {
   const enableButton = () => {
     const minCharacters = 6;
     const regex = /\S+@\S+\.\S+/;
-    if (userData.password.length >= minCharacters
+    if (userData.password.length > minCharacters
       && regex.test(userData.email)) {
       setIsDisabled(false);
     } else {
