@@ -36,7 +36,6 @@ function Login() {
           id="email"
           data-testid="email-input"
           onChange={ handleChange }
-          // value={ context } nao precisa mais por conta de estar tudo no
         />
       </label>
       <br />
