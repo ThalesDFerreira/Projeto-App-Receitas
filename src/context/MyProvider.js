@@ -19,7 +19,7 @@ function MyProvider({ children }) {
   const enableButton = () => {
     const minCharacters = 6;
     const regex = /\S+@\S+\.\S+/;
-    if (userData.password.length >= minCharacters
+    if (userData.password.length > minCharacters
       && regex.test(userData.email)) {
       setIsDisabled(false);
     } else {
@@ -78,7 +78,11 @@ function MyProvider({ children }) {
       return global.alert('Sorry, we haven\'t found any recipes for these filters.');
     }
     if (dataFiltered.length === 1) {
-      history.push(`/foods/${dataFiltered[0].idMeal}`);
+      if (typeFood === 'food') {
+        history.push(`/foods/${dataFiltered[0].idMeal}`);
+      } else {
+        history.push(`/drinks/${dataFiltered[0].idDrink}`);
+      }
     }
   };
 
@@ -112,7 +116,7 @@ function MyProvider({ children }) {
 
   return (
     <MyContext.Provider
-      value={contextValue}
+      value={ contextValue }
     >
       {children}
     </MyContext.Provider>);

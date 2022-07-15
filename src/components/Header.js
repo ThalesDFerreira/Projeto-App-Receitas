@@ -21,7 +21,7 @@ function Header({ titlePage, hasSearch }) {
           data-testid="profile-top-btn"
         />
       </button>
-      <p>{titlePage}</p>
+      <p data-testid="page-title">{titlePage}</p>
       {hasSearch
       && (
         <button
