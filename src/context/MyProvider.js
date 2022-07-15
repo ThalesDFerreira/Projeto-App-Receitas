@@ -30,7 +30,6 @@ function MyProvider({ children }) {
   };
 
   const handleButtonFilter = ({ target: { name } }) => {
-    console.log(name);
     setButtonFilter(name);
   };
 
@@ -47,6 +46,17 @@ function MyProvider({ children }) {
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
     history.push('/foods');
+  };
+
+  const handleDoneRecipes = () => {
+    history.push('/DoneRecipes');
+  };
+  const handleFavoriteRecipes = () => {
+    history.push('/FavoriteRecipes');
+  };
+  const localClear = () => {
+    localStorage.clear();
+    history.push('/');
   };
 
   const verifyUrlAPI = () => {
@@ -161,6 +171,10 @@ function MyProvider({ children }) {
     filterFood,
     resetFood,
     handleButtonFilter,
+    userData,
+    handleDoneRecipes,
+    handleFavoriteRecipes,
+    localClear,
   };
 
   return (
