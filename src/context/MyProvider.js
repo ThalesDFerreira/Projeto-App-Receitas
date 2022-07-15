@@ -81,6 +81,9 @@ function MyProvider({ children }) {
       return global.alert('Your search must have only 1 (one) character');
     }
     const result = await fetch(verifyUrlAPI()).then((response) => response.json());
+    if (result.meals === null || result.drinks === null) {
+      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
     if (typeFood === 'food') {
       setData(result.meals);
       setDataFiltered(result.meals);
@@ -91,9 +94,6 @@ function MyProvider({ children }) {
   };
 
   const verifyMeals = () => {
-    if (dataFiltered === null) {
-      return global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    }
     if (buttonFilter === 'searchButton' && dataFiltered.length === 1) {
       if (typeFood === 'food') {
         history.push(`/foods/${dataFiltered[0].idMeal}`);
