@@ -3,7 +3,7 @@ import MyContext from '../context/MyContext';
 import FilterCard from './Filter';
 
 function FoodCard() {
-  const { dataFiltered, typeFood } = useContext(MyContext);
+  const { dataFiltered, typeFood, redirectDetails } = useContext(MyContext);
   const twelve = 12;
   return (
     <>
@@ -12,13 +12,17 @@ function FoodCard() {
         {dataFiltered.map((item, index) => (
           index < twelve
         && (
-          <div
+          <button
+            type="button"
             key={ typeFood === 'food' ? item.idMeal : item.strDrink }
             data-testid={ `${index}-recipe-card` }
             className="w-50 d-flex flex-column"
+            onClick={ (e) => { redirectDetails(e); } }
+
           >
             <img
               src={ typeFood === 'food' ? item.strMealThumb : item.strDrinkThumb }
+              name={ typeFood === 'food' ? item.idMeal : item.idDrink }
               data-testid={ `${index}-card-img` }
               alt={ typeFood === 'food' ? item.strMeal : item.strDrink }
               className="w-75 align-self-center"
@@ -30,7 +34,7 @@ function FoodCard() {
               { typeFood === 'food' ? item.strMeal : item.strDrink }
 
             </p>
-          </div>
+          </button>
         )
         ))}
       </div>
