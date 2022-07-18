@@ -11,11 +11,11 @@ function Recipes() {
     setTypeFood('food');
     fetchAPI();
   }, []);
+
   return (
     <>
       <Header titlePage="Foods" hasSearch />
       <FoodCard />
-
       <Footer />
     </>
   );
