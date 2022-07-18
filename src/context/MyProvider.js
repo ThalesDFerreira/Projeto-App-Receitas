@@ -135,21 +135,32 @@ function MyProvider({ children }) {
     }
   };
 
-  const filterFood = async ({ target: { value } }) => {
-    console.log('to roando');
-    if (typeFood === 'food') {
-      const result = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`)
-        .then((response) => response.json());
-      setDataFiltered(result.meals);
+  const filterFood = async (base, name) => {
+    if (base[name] === true) {
+      if (typeFood === 'food') {
+        const result = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`)
+          .then((response) => response.json());
+        setDataFiltered(result.meals);
+      } else {
+        const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`)
+          .then((response) => response.json());
+        setDataFiltered(result.drinks);
+      }
     } else {
-      const result = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${value}`)
-        .then((response) => response.json());
-      setDataFiltered(result.drinks);
+      setDataFiltered(data);
     }
   };
 
   const resetFood = () => {
     setDataFiltered(data);
+  };
+
+  const redirectDetails = ({ target: { name } }) => {
+    if (typeFood === 'food') {
+      history.push(`foods/${name}`);
+    } else {
+      history.push(`drinks/${name}`);
+    }
   };
 
   const contextValue = {
@@ -175,6 +186,7 @@ function MyProvider({ children }) {
     handleDoneRecipes,
     handleFavoriteRecipes,
     localClear,
+    redirectDetails,
   };
 
   return (

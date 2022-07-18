@@ -6,6 +6,7 @@
     "node": "16"
   },
   "dependencies": {
+    "@kodingdotninja/use-toggle": "^0.1.0",
     "bootstrap": "^4.5.3",
     "clipboard-copy": "^4.0.1",
     "prop-types": "^15.7.2",

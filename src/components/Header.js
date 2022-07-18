@@ -36,7 +36,6 @@ function Header({ titlePage, hasSearch }) {
         </button>)}
       {showSearchBar
           && <SearchBar />}
-
     </div>
   );
 }
