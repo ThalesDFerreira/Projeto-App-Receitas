@@ -8,8 +8,8 @@ function Login() {
     <div>
       <h1>Login</h1>
       <br />
-      <h1> Email :</h1>
       <label htmlFor="email">
+        <h1> Email :</h1>
         <input
           type="email"
           id="email"
@@ -19,8 +19,8 @@ function Login() {
         />
       </label>
       <br />
-      <h1> Senha :</h1>
       <label htmlFor="senha">
+        <h1> Senha :</h1>
         <input
           type="password"
           id="senha"
