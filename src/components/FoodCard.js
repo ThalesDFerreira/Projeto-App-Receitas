@@ -2,22 +2,20 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import MyContext from '../context/MyContext';
 
-function FoodCard({ base, quantity, page, typeCard }) {
-  const { redirectDetails } = useContext(MyContext);
+function FoodCard({ quantity, typeCard }) {
+  const { redirectDetails, dataFiltered } = useContext(MyContext);
   return (
     <div className="d-flex flex-wrap ">
-      {base.map((item, index) => (
+      {dataFiltered.map((item, index) => (
         index < quantity
         && (
           <button
             type="button"
             key={ typeCard === 'food'
               ? `${item.idMeal}${index}` : `${item.strDrink}${index}` }
-            data-testid={ page === 'principal'
-              ? `${index}-recipe-card` : `${index}-recomendation-card` }
+            data-testid={ `${index}-recipe-card` }
             className="w-50 d-flex flex-column"
-            onClick={ page === 'principal'
-              ? ((e) => { redirectDetails(e); }) : undefined }
+            onClick={ (e) => { redirectDetails(e); } }
 
           >
             <img
@@ -42,9 +40,7 @@ function FoodCard({ base, quantity, page, typeCard }) {
 }
 
 FoodCard.propTypes = {
-  base: PropTypes.arrayOf(PropTypes.object).isRequired,
   quantity: PropTypes.number.isRequired,
-  page: PropTypes.string.isRequired,
   typeCard: PropTypes.string.isRequired,
 };
 

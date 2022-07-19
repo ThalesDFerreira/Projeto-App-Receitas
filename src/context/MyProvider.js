@@ -77,6 +77,8 @@ function MyProvider({ children }) {
   };
 
   const fetchAPISearch = async () => {
+    console.log(typeFood);
+    console.log(verifyUrlAPI());
     if (filterRecipe === 'First letter' && inputSearch.length > 1) {
       return global.alert('Your search must have only 1 (one) character');
     }
