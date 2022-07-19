@@ -49,10 +49,10 @@ function MyProvider({ children }) {
   };
 
   const handleDoneRecipes = () => {
-    history.push('/DoneRecipes');
+    history.push('/done-recipes');
   };
   const handleFavoriteRecipes = () => {
-    history.push('/FavoriteRecipes');
+    history.push('/favorite-recipes');
   };
   const localClear = () => {
     localStorage.clear();
