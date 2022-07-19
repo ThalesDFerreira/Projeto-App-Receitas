@@ -46,7 +46,6 @@ function ProviderRecipe({ children }) {
     } else {
       const result = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
         .then((response) => response.json());
-      console.log(result);
       setRecomendation(result.meals);
     }
   };

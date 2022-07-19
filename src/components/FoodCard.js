@@ -15,12 +15,14 @@ function FoodCard({ quantity, typeCard }) {
               ? `${item.idMeal}${index}` : `${item.strDrink}${index}` }
             data-testid={ `${index}-recipe-card` }
             className="w-50 d-flex flex-column"
-            onClick={ (e) => { redirectDetails(e); } }
+            name={ typeCard === 'food' ? item.idMeal : item.idDrink }
+            onClick={ () => {
+              redirectDetails(typeCard === 'food' ? item.idMeal : item.idDrink);
+            } }
 
           >
             <img
               src={ typeCard === 'food' ? item.strMealThumb : item.strDrinkThumb }
-              name={ typeCard === 'food' ? item.idMeal : item.idDrink }
               data-testid={ `${index}-card-img` }
               alt={ typeCard === 'food' ? item.strMeal : item.strDrink }
               className="w-75 align-self-center"

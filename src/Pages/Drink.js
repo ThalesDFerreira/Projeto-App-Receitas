@@ -6,7 +6,7 @@ import RecomendationCard from '../components/RecomendationCard';
 import MyContext from '../context/MyContext';
 import ShareAndFavorite from '../components/ShareAndFavorite';
 
-function Drink({ match: { params: { id } } }) {
+function Drink({ match: { params: { id } }, location: { pathname } }) {
   const { fetchRecipe, dataRecipe,
     ingredientData, measureIngredientData,
     fetchRecomendation, recomendation } = useContext(ContextRecipe);
@@ -40,7 +40,7 @@ function Drink({ match: { params: { id } } }) {
                 {dataRecipe[0].strAlcoholic}
               </p>
             </div>
-            <ShareAndFavorite />
+            <ShareAndFavorite linkCopy={ pathname } />
 
           </div>
           <ul>
@@ -77,6 +77,7 @@ Drink.propTypes = {
   match: PropTypes.shape(
     { params: PropTypes.shape({ id: PropTypes.string }) },
   ).isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
 };
 
 export default Drink;

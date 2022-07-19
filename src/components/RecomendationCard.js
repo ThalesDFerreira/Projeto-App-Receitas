@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import Carousel from 'react-elastic-carousel';
 import ContextRecipe from '../context/ContextRecipe';
 
 function RecomendationCard({ typeCard }) {
@@ -8,18 +7,14 @@ function RecomendationCard({ typeCard }) {
   const SIX = 6;
 
   return (
-    <Carousel
-      itemsToShow={ 2 }
-      itemsToScroll={ 2 }
-      showArrows={ false }
-      pagination={ false }
-    >
+
+    <div className="recomendation-scroll">
 
       {recomendation.map((item, index) => (
         index < SIX
         && (
           <div
-            className="mb-3"
+            className={ `mb-3 recomendation${index}` }
             key={ typeCard === 'food'
               ? `${item.strMeal}${item.idMeal}${index}`
               : `${item.idDrink}${item.strDrink}${index}` }
@@ -42,7 +37,7 @@ function RecomendationCard({ typeCard }) {
           </div>
         )
       ))}
-    </Carousel>
+    </div>
   );
 }
 

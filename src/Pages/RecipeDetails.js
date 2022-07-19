@@ -5,7 +5,7 @@ import ContextRecipe from '../context/ContextRecipe';
 import RecomendationCard from '../components/RecomendationCard';
 import ShareAndFavorite from '../components/ShareAndFavorite';
 
-function Recipe({ match: { params: { id } } }) {
+function Recipe({ match: { params: { id } }, location: { pathname } }) {
   const { fetchRecipe, dataRecipe,
     ingredientData, measureIngredientData,
     fetchRecomendation, recomendation } = useContext(ContextRecipe);
@@ -37,7 +37,7 @@ function Recipe({ match: { params: { id } } }) {
                 {dataRecipe[0].strCategory}
               </p>
             </div>
-            <ShareAndFavorite />
+            <ShareAndFavorite linkCopy={ pathname } />
 
           </div>
           <ul>
@@ -83,6 +83,7 @@ Recipe.propTypes = {
   match: PropTypes.shape(
     { params: PropTypes.shape({ id: PropTypes.string }) },
   ).isRequired,
+  location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
 };
 
 export default Recipe;

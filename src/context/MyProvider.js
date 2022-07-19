@@ -155,11 +155,11 @@ function MyProvider({ children }) {
     setDataFiltered(data);
   };
 
-  const redirectDetails = ({ target: { name } }) => {
+  const redirectDetails = (value) => {
     if (typeFood === 'food') {
-      history.push(`/foods/${name}`);
+      history.push(`/foods/${value}`);
     } else {
-      history.push(`/drinks/${name}`);
+      history.push(`/drinks/${value}`);
     }
   };
 
