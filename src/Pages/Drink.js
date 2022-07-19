@@ -1,14 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import ContextRecipe from '../context/ContextRecipe';
 import RecomendationCard from '../components/RecomendationCard';
 import MyContext from '../context/MyContext';
+import ShareAndFavorite from '../components/ShareAndFavorite';
 
 function Drink({ match: { params: { id } } }) {
   const { fetchRecipe, dataRecipe,
     ingredientData, measureIngredientData,
     fetchRecomendation, recomendation } = useContext(ContextRecipe);
   const { setTypeFood } = useContext(MyContext);
+  const history = useHistory();
 
   useEffect(() => {
     setTypeFood('drink');
@@ -27,12 +30,19 @@ function Drink({ match: { params: { id } } }) {
             src={ dataRecipe[0].strDrinkThumb }
             alt={ dataRecipe[0].strDrink }
           />
-          <p data-testid="recipe-title">
-            {dataRecipe[0].strDrink}
-          </p>
-          <p data-testid="recipe-category">
-            {dataRecipe[0].strAlcoholic}
-          </p>
+          <div className="d-flex justify-content-between">
+            <div>
+
+              <p data-testid="recipe-title">
+                {dataRecipe[0].strDrink}
+              </p>
+              <p data-testid="recipe-category">
+                {dataRecipe[0].strAlcoholic}
+              </p>
+            </div>
+            <ShareAndFavorite />
+
+          </div>
           <ul>
             {ingredientData.map((item, index) => (
               <li
@@ -53,6 +63,7 @@ function Drink({ match: { params: { id } } }) {
             type="button"
             data-testid="start-recipe-btn"
             className="fixed-bottom w-100"
+            onClick={ () => history.push(`/drinks/${id}/in-progress`) }
 
           >
             Start Recipe
