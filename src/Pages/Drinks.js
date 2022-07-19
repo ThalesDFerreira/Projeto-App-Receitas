@@ -6,10 +6,11 @@ import MyContext from '../context/MyContext';
 import Filter from '../components/Filter';
 
 function Drinks() {
-  const { fetchAPI, dataFiltered } = useContext(MyContext);
+  const { fetchAPI, setTypeFood } = useContext(MyContext);
   const twelve = 12;
 
   useEffect(() => {
+    setTypeFood('drink');
     fetchAPI('drink');
   }, []);
 
@@ -18,9 +19,7 @@ function Drinks() {
       <Header titlePage="Drinks" hasSearch />
       <Filter />
       <FoodCard
-        base={ dataFiltered }
         quantity={ twelve }
-        page="principal"
         typeCard="drink"
       />
       <Footer />
