@@ -8,6 +8,5 @@
 }
 
 .recomendation2, .recomendation3, .recomendation4, .recomendation5 {
-visibility: hidden;
-} 
-
+  visibility: hidden;
+}
