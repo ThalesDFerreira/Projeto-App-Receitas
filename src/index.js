@@ -5,11 +5,14 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import MyProvider from './context/MyProvider';
+import ProviderRecipe from './context/ProviderRecipe';
 
 ReactDOM.render(
   <BrowserRouter>
     <MyProvider>
-      <App />
+      <ProviderRecipe>
+        <App />
+      </ProviderRecipe>
     </MyProvider>
   </BrowserRouter>,
   document.getElementById('root'),

@@ -58,6 +58,7 @@ function FilterCard() {
 
       <button
         name={ cat.strCategory }
+        key={ `${cat.strCategory}${index}` }
         type="button"
         value={ cat.strCategory }
         className={ buttonPressed[cat.strCategory] === true

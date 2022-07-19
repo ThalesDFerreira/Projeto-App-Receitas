@@ -115,8 +115,8 @@ function MyProvider({ children }) {
     setInputSearch(value);
   };
 
-  const fetchAPI = async () => {
-    if (typeFood === 'food') {
+  const fetchAPI = async (type) => {
+    if (type === 'food') {
       const resultMeal = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
         .then((response) => response.json());
       const { meals } = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list')
@@ -157,9 +157,9 @@ function MyProvider({ children }) {
 
   const redirectDetails = ({ target: { name } }) => {
     if (typeFood === 'food') {
-      history.push(`foods/${name}`);
+      history.push(`/foods/${name}`);
     } else {
-      history.push(`drinks/${name}`);
+      history.push(`/drinks/${name}`);
     }
   };
 
