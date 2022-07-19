@@ -52,7 +52,7 @@ function Drink({ match: { params: { id } } }) {
           <button
             type="button"
             data-testid="start-recipe-btn"
-            className="fixed-bottom"
+            className="fixed-bottom w-100"
 
           >
             Start Recipe

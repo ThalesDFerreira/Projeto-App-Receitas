@@ -12,12 +12,14 @@ function RecomendationCard({ typeCard }) {
       itemsToShow={ 2 }
       itemsToScroll={ 2 }
       showArrows={ false }
+      pagination={ false }
     >
 
       {recomendation.map((item, index) => (
         index < SIX
         && (
           <div
+            className="mb-3"
             key={ typeCard === 'food'
               ? `${item.strMeal}${item.idMeal}${index}`
               : `${item.idDrink}${item.strDrink}${index}` }
