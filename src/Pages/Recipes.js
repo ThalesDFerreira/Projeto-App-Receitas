@@ -12,6 +12,7 @@ function Recipes() {
   useEffect(() => {
     fetchAPI('food');
   }, []);
+
   return (
     <>
       <Header titlePage="Foods" hasSearch />
