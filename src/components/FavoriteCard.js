@@ -15,11 +15,6 @@ function FavoriteCard() {
       const result = JSON.parse(localStorage.getItem('favoriteRecipes'));
       setFavoriteRecipesSaved(result);
     }
-  }, []);
-
-  useEffect(() => {
-    const result = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    setFavoriteRecipesSaved(result);
   }, [remove]);
 
   return (
