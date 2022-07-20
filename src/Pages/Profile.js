@@ -8,8 +8,10 @@ function Profile() {
     handleFavoriteRecipes, localClear } = useContext(MyContext);
 
   const getUserStorage = () => {
-    const result = JSON.parse(localStorage.getItem('user')).email;
-    return result;
+    if (localStorage.getItem('user')) {
+      const result = JSON.parse(localStorage.getItem('user')).email;
+      return result;
+    }
   };
 
   useEffect(() => {
