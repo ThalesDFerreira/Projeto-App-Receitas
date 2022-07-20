@@ -45,7 +45,7 @@ function MyProvider({ children }) {
     localStorage.setItem('user', JSON.stringify({ email: userData.email }));
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
-    localStorage.setItem('favoriteRecipes', []);
+    localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     history.push('/foods');
   };
 
@@ -156,8 +156,8 @@ function MyProvider({ children }) {
     setDataFiltered(data);
   };
 
-  const redirectDetails = (value) => {
-    if (typeFood === 'food') {
+  const redirectDetails = (value, type) => {
+    if (type === 'food') {
       history.push(`/foods/${value}`);
     } else {
       history.push(`/drinks/${value}`);

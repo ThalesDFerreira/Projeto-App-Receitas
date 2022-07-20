@@ -37,7 +37,19 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
                 {dataRecipe[0].strCategory}
               </p>
             </div>
-            <ShareAndFavorite linkCopy={ pathname } type="food" />
+            <ShareAndFavorite
+              linkCopy={ pathname }
+              type="food"
+              id={ id }
+              area={ dataRecipe[0].strArea }
+              category={ dataRecipe[0].strCategory }
+              alcoholic=""
+              name={ dataRecipe[0].strMeal }
+              image={ dataRecipe[0].strMealThumb }
+              testid="share-btn"
+              favtestid="favorite-btn"
+
+            />
 
           </div>
           <ul>
