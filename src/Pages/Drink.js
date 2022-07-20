@@ -40,7 +40,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
                 {dataRecipe[0].strAlcoholic}
               </p>
             </div>
-            <ShareAndFavorite linkCopy={ pathname } />
+            <ShareAndFavorite linkCopy={ pathname } type="drink" />
 
           </div>
           <ul>

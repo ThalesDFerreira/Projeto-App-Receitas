@@ -37,7 +37,7 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
                 {dataRecipe[0].strCategory}
               </p>
             </div>
-            <ShareAndFavorite linkCopy={ pathname } />
+            <ShareAndFavorite linkCopy={ pathname } type="food" />
 
           </div>
           <ul>
