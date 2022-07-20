@@ -17,7 +17,8 @@ function FoodCard({ quantity, typeCard }) {
             className="w-50 d-flex flex-column"
             name={ typeCard === 'food' ? item.idMeal : item.idDrink }
             onClick={ () => {
-              redirectDetails(typeCard === 'food' ? item.idMeal : item.idDrink);
+              redirectDetails((typeCard === 'food' ? item.idMeal : item.idDrink),
+                (typeCard === 'food' ? 'food' : 'drink'));
             } }
 
           >

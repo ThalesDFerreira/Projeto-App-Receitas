@@ -11,10 +11,12 @@ const copy = require('clipboard-copy');
 
 const TWO_SECONDS = 2000;
 
-function ShareAndFavorite({ linkCopy, type }) {
-  const { dataRecipe } = useContext(ContextRecipe);
+function ShareAndFavorite({
+  linkCopy, type, id,
+  area, category, alcoholic, name, image, testid, favtestid }) {
+  const { favoriteRecipes,
+    setFavoriteRecipes, remove, setRemove } = useContext(ContextRecipe);
   const [showCopy, setShowCopy] = useState(false);
-  const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const intervalMensage = () => {
@@ -24,28 +26,32 @@ function ShareAndFavorite({ linkCopy, type }) {
 
   const verifyFav = () => {
     const verify = favoriteRecipes.some((item) => item.id
-      === (type === 'food' ? dataRecipe[0].idMeal : dataRecipe[0].idDrink));
+      === id);
     return verify;
   };
 
   const handleFavoriteRecipes = () => {
     const objFavorite = {
-      id: type === 'food' ? dataRecipe[0].idMeal : dataRecipe[0].idDrink,
-      type: type === 'food' ? 'food' : 'drink',
-      nationality: type === 'food' ? dataRecipe[0].strArea : '',
-      category: dataRecipe[0].strCategory,
-      alcoholicOrNot: type === 'food' ? '' : dataRecipe[0].strAlcoholic,
-      name: type === 'food' ? dataRecipe[0].strMeal : dataRecipe[0].strDrink,
-      image: type === 'food' ? dataRecipe[0].strMealThumb : dataRecipe[0].strDrinkThumb,
+      id,
+      type,
+      nationality: area,
+      category,
+      alcoholicOrNot: alcoholic,
+      name,
+      image,
     };
+    localStorage.setItem('favoriteRecipes',
+      JSON.stringify([...favoriteRecipes, objFavorite]));
     setFavoriteRecipes([...favoriteRecipes, objFavorite]);
   };
 
   const checkFavorite = () => {
     if (verifyFav()) {
       const newFavoriteRecipes = favoriteRecipes.filter((item) => item.id
-        !== (type === 'food' ? dataRecipe[0].idMeal : dataRecipe[0].idDrink));
+        !== id);
       setFavoriteRecipes(newFavoriteRecipes);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(newFavoriteRecipes));
+      setRemove(!remove);
     } else {
       handleFavoriteRecipes();
     }
@@ -59,9 +65,19 @@ function ShareAndFavorite({ linkCopy, type }) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-    setIsFavorite(verifyFav());
+    if (verifyFav()) {
+      setIsFavorite(true);
+    } else {
+      setIsFavorite(false);
+    }
   }, [favoriteRecipes]);
+
+  // useEffect(() => {
+  //   if (favoriteRecipes.length > 0) {
+  //     localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+  //     setIsFavorite(verifyFav());
+  //   }
+  // }, [favoriteRecipes]);
 
   useEffect(() => {
     if (showCopy) {
@@ -75,7 +91,8 @@ function ShareAndFavorite({ linkCopy, type }) {
     <div>
       <button
         type="button"
-        data-testid="share-btn"
+        data-testid={ testid }
+        src={ shareIcon }
         onClick={ () => {
           intervalMensage();
         } }
@@ -85,7 +102,7 @@ function ShareAndFavorite({ linkCopy, type }) {
       </button>
       <button
         type="button"
-        data-testid="favorite-btn"
+        data-testid={ favtestid }
         onClick={ checkFavorite }
         src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
       >
@@ -100,6 +117,15 @@ function ShareAndFavorite({ linkCopy, type }) {
 ShareAndFavorite.propTypes = {
   linkCopy: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  area: PropTypes.string.isRequired,
+  alcoholic: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  testid: PropTypes.string.isRequired,
+  favtestid: PropTypes.string.isRequired,
+
 };
 
 export default ShareAndFavorite;
