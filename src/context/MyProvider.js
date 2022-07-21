@@ -46,6 +46,7 @@ function MyProvider({ children }) {
     localStorage.setItem('mealsToken', 1);
     localStorage.setItem('cocktailsToken', 1);
     localStorage.setItem('favoriteRecipes', JSON.stringify([]));
+    localStorage.setItem('doneRecipes', JSON.stringify([]));
     history.push('/foods');
   };
 
