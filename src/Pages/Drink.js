@@ -77,7 +77,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
             onClick={ () => history.push(`/drinks/${id}/in-progress`) }
 
           >
-            Start Recipe
+            Start Drink
 
           </button>
         </div>)

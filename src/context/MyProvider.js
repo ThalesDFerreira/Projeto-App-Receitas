@@ -59,7 +59,6 @@ function MyProvider({ children }) {
     localStorage.clear();
     history.push('/');
   };
-
   const verifyUrlAPI = () => {
     if (typeFood === 'food') {
       if (filterRecipe === 'Ingredient') {
