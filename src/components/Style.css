@@ -1,5 +1,5 @@
-.todo__item > input[type='checkbox']:checked  + p {
-  text-decoration:line-through;
+.todo__item > input[ type = 'checkbox' ]:checked + p {
+  text-decoration: line-through;
 }
 
 li {
