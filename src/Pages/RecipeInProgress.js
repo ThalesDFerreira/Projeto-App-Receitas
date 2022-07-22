@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareAndFavorite from '../components/ShareAndFavorite';
@@ -7,9 +7,34 @@ import ListCheck from '../components/ListCheck';
 
 function RecipesInProgress({ match: { params: { id } }, location: { pathname } }) {
   const { dataRecipe,
-    ingredientData } = useContext(ContextRecipe);
+    ingredientData,
+    doneRecipesStorage, setDoneRecipesStorage,
+    setIngredientData } = useContext(ContextRecipe);
   const history = useHistory();
+  // const [btnDisabled, setBtnDisabled] = useState(true);
+  // const [checked, setChecked] = useState(false);
 
+  function getChecked(name) {
+    return ingredientData.filter((i) => i === name).length !== 0;
+  }
+  const onHandleCheck = ({ target }) => {
+    if (getChecked(target.value)) {
+      const temp = ingredientData.filter((i) => i !== target.value);
+      setIngredientData(temp);
+    } else {
+      const temp = [...ingredientData];
+      temp.push(target.value);
+      setIngredientData(temp);
+    }
+  };
+
+  const sendDoneToStorage = () => {
+    setDoneRecipesStorage([...doneRecipesStorage, dataRecipe[0]]);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesStorage));
+  }, [doneRecipesStorage]);
   return (
 
     dataRecipe[0] !== undefined
@@ -48,12 +73,13 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
 
           </div>
           <ul>
-
             {ingredientData.map(
               (ingredi, index) => (<ListCheck
                 key={ index }
-                ingredient={ ingredi }
+                item={ ingredi }
                 index={ index }
+                checked={ getChecked(ingredi) }
+                onChange={ onHandleCheck }
               />),
             )}
           </ul>
@@ -66,7 +92,8 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
             type="button"
             data-testid="finish-recipe-btn"
             className="fixed-bottom"
-            onClick={ () => history.push('/done-recipes') }
+            onClick={ () => { sendDoneToStorage(); history.push('/done-recipes'); } }
+            // disabled={ btnDisabled }
           >
             Finalizar Receita
 
