@@ -61,9 +61,15 @@ function FavoriteAndDoneCard({ dataProps, pageProps }) {
       >
         Drinks
       </button>
-      <div data-testid="recipes-card-drinks-foods" className="d-flex flex-wrdataap ">
+      <div
+        className="d-flex flex-wrdataap "
+      >
         {dataBase.map((item, index) => (
-          <div className="d-flex flex-wrap " key={ item.image }>
+          <div
+            className="d-flex flex-wrap"
+            data-testid={ `receitas-cards-${item.id}` }
+            key={ item.image }
+          >
             <button
               type="button"
               key={ `${item.id}${index}` }
@@ -125,7 +131,8 @@ function FavoriteAndDoneCard({ dataProps, pageProps }) {
           </div>
         ))}
       </div>
-    </>);
+    </>
+  );
 }
 
 FavoriteAndDoneCard.propTypes = {
