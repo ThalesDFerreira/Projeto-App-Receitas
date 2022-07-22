@@ -11,6 +11,7 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
     fetchRecomendation, recomendation,
     recipesInProgress, setRecipesInProgress,
   } = useContext(ContextRecipe);
+
   const history = useHistory();
   const [progressMeal, setProgressMeal] = useState(false);
 
@@ -20,17 +21,29 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
   }, []);
 
   useEffect(() => {
-    const continueRecipe = recipesInProgress
-      .some((item) => item.strMeal === dataRecipe[0].strMeal);
-    if (continueRecipe) {
-      setProgressMeal(true);
-    } else {
-      setProgressMeal(false);
+    if (localStorage.getItem('inProgressRecipes') && dataRecipe[0] !== undefined) {
+      const result = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const continueRecipe = Object
+        .keys(result.meals).includes(dataRecipe[0].idMeal);
+      if (continueRecipe) {
+        setProgressMeal(true);
+      } else {
+        setProgressMeal(false);
+      }
     }
   }, [dataRecipe[0]]);
 
   const changeStatusRecipe = () => {
-    setRecipesInProgress([...recipesInProgress, dataRecipe[0]]);
+    setRecipesInProgress({ ...recipesInProgress,
+      meals: { ...recipesInProgress.meals,
+        [dataRecipe[0].idMeal]: dataRecipe[0],
+      } });
+    localStorage.setItem(
+      'inProgressRecipes', JSON.stringify({ ...recipesInProgress,
+        meals: { ...recipesInProgress.meals,
+          [dataRecipe[0].idMeal]: dataRecipe[0],
+        } }),
+    );
   };
 
   return (

@@ -11,7 +11,10 @@ function ProviderRecipe({ children }) {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [remove, setRemove] = useState(false);
   const [doneRecipesStorage, setDoneRecipesStorage] = useState([]);
-  const [recipesInProgress, setRecipesInProgress] = useState([]);
+  const [recipesInProgress, setRecipesInProgress] = useState(
+    { cocktails: {},
+      drinks: {} },
+  );
   const [ingredientsContinue, setIngredientsContinue] = useState([]);
 
   const verifyUrlRecipe = (value, endpoint) => {

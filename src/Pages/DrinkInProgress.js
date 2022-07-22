@@ -10,6 +10,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
     ingredientData,
     ingredientsContinue,
     setIngredientsContinue,
+    fetchRecipe,
   } = useContext(ContextRecipe);
   const history = useHistory();
   const [ingredientChecked, setIngredientChecked] = useState([]);
@@ -29,19 +30,25 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
   };
 
   useEffect(() => {
-    if (ingredientChecked.length === ingredientData.length) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
+    fetchRecipe(id, 'drink');
+  }, []);
+
+  useEffect(() => {
+    if (dataRecipe[0] !== undefined) {
+      if (ingredientChecked.length === ingredientData.length) {
+        setBtnDisabled(false);
+      } else {
+        setBtnDisabled(true);
+      }
+      setIngredientsContinue({
+        ...ingredientsContinue,
+        [dataRecipe[0].strDrink]: ingredientCheckedName,
+      });
     }
-    setIngredientsContinue({
-      ...ingredientsContinue,
-      [dataRecipe[0].strDrink]: ingredientCheckedName,
-    });
   }, [ingredientChecked]);
 
   return (
-    (dataRecipe !== null && dataRecipe[0] !== undefined)
+    dataRecipe[0] !== undefined
 
       && (
         <div>
@@ -62,7 +69,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
               </p>
             </div>
             <ShareAndFavorite
-              linkCopy={ pathname }
+              linkCopy={ pathname.replace('/in-progress', '') }
               type="drink"
               id={ id }
               area=""
@@ -92,7 +99,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
           </p>
           <button
             type="button"
-            data-testid="start-recipe-btn"
+            data-testid="finish-recipe-btn"
             className="fixed-bottom w-100"
             onClick={ () => history.push('/done-recipes') }
             disabled={ btnDisabled }

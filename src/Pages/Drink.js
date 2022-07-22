@@ -13,7 +13,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
     setRecipesInProgress } = useContext(ContextRecipe);
   const { setTypeFood } = useContext(MyContext);
   const history = useHistory();
-  const [progressMeal, setProgressMeal] = useState(false);
+  const [progressDrink, setProgressDrink] = useState(false);
 
   useEffect(() => {
     setTypeFood('drink');
@@ -22,17 +22,29 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
   }, []);
 
   useEffect(() => {
-    const continueRecipe = recipesInProgress
-      .some((item) => item.strDrink === dataRecipe[0].strDrink);
-    if (continueRecipe) {
-      setProgressMeal(true);
-    } else {
-      setProgressMeal(false);
+    if (localStorage.getItem('inProgressRecipes') && dataRecipe[0] !== undefined) {
+      const result = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const continueRecipe = Object
+        .keys(result.cocktails).includes(dataRecipe[0].idDrink);
+      if (continueRecipe) {
+        setProgressDrink(true);
+      } else {
+        setProgressDrink(false);
+      }
     }
   }, [dataRecipe[0]]);
 
   const changeStatusRecipe = () => {
-    setRecipesInProgress([...recipesInProgress, dataRecipe[0]]);
+    setRecipesInProgress({ ...recipesInProgress,
+      cocktails: { ...recipesInProgress.cocktails,
+        [dataRecipe[0].idDrink]: dataRecipe[0],
+      } });
+    localStorage.setItem(
+      'inProgressRecipes', JSON.stringify({ ...recipesInProgress,
+        cocktails: { ...recipesInProgress.cocktails,
+          [dataRecipe[0].idDrink]: dataRecipe[0],
+        } }),
+    );
   };
 
   return (
@@ -86,7 +98,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
           </p>
           {recomendation.length > 0
           && <RecomendationCard typeCard="food" />}
-          {progressMeal
+          {progressDrink
             ? (
               <button
                 type="button"
@@ -96,7 +108,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
                   history.push(`/drinks/${id}/in-progress`);
                 } }
               >
-                Continue Drink
+                Continue Recipe
 
               </button>)
             : (
@@ -109,7 +121,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
                   history.push(`/drinks/${id}/in-progress`);
                 } }
               >
-                Start Drink
+                Start Recipe
 
               </button>)}
         </div>)

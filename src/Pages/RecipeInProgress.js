@@ -19,6 +19,7 @@ function RecipesInProgress({
     // recipesInProgress,
     ingredientsContinue,
     setIngredientsContinue,
+    fetchRecipe,
   } = useContext(ContextRecipe);
   const history = useHistory();
   const [ingredientChecked, setIngredientChecked] = useState([]);
@@ -38,15 +39,25 @@ function RecipesInProgress({
   };
 
   useEffect(() => {
-    if (ingredientChecked.length === ingredientData.length) {
-      setBtnDisabled(false);
-    } else {
-      setBtnDisabled(true);
+    fetchRecipe(id, 'food');
+  }, []);
+
+  useEffect(() => {
+    console.log(dataRecipe);
+  }, [dataRecipe[0]]);
+
+  useEffect(() => {
+    if (dataRecipe[0] !== undefined) {
+      if (ingredientChecked.length === ingredientData.length) {
+        setBtnDisabled(false);
+      } else {
+        setBtnDisabled(true);
+      }
+      setIngredientsContinue({
+        ...ingredientsContinue,
+        [dataRecipe[0].strMeal]: ingredientCheckedName,
+      });
     }
-    setIngredientsContinue({
-      ...ingredientsContinue,
-      [dataRecipe[0].strMeal]: ingredientCheckedName,
-    });
   }, [ingredientChecked]);
 
   const sendDoneToStorage = () => {
@@ -56,8 +67,11 @@ function RecipesInProgress({
   useEffect(() => {
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesStorage));
   }, [doneRecipesStorage]);
+
   return (
-    dataRecipe[0] !== undefined && (
+    dataRecipe[0] !== undefined
+
+    && (
       <div>
         <img
           className="w-100"
@@ -71,7 +85,7 @@ function RecipesInProgress({
             <p data-testid="recipe-category">{dataRecipe[0].strCategory}</p>
           </div>
           <ShareAndFavorite
-            linkCopy={ pathname }
+            linkCopy={ pathname.replace('/in-progress', '') }
             type="food"
             id={ id }
             area={ dataRecipe[0].strArea }
@@ -94,7 +108,11 @@ function RecipesInProgress({
             />
           ))}
         </ul>
-        <p data-testid="instructions">{dataRecipe[0].strInstructions}</p>
+        <p
+          data-testid="instructions"
+        >
+          {dataRecipe[0].strInstructions}
+        </p>
         <button
           type="button"
           data-testid="finish-recipe-btn"
