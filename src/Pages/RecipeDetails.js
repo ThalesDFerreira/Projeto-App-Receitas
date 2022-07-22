@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ContextRecipe from '../context/ContextRecipe';
@@ -8,13 +8,30 @@ import ShareAndFavorite from '../components/ShareAndFavorite';
 function Recipe({ match: { params: { id } }, location: { pathname } }) {
   const { fetchRecipe, dataRecipe,
     ingredientData, measureIngredientData,
-    fetchRecomendation, recomendation } = useContext(ContextRecipe);
+    fetchRecomendation, recomendation,
+    recipesInProgress, setRecipesInProgress,
+  } = useContext(ContextRecipe);
   const history = useHistory();
+  const [progressMeal, setProgressMeal] = useState(false);
 
   useEffect(() => {
     fetchRecomendation('food');
     fetchRecipe(id, 'food');
   }, []);
+
+  useEffect(() => {
+    const continueRecipe = recipesInProgress
+      .some((item) => item.strMeal === dataRecipe[0].strMeal);
+    if (continueRecipe) {
+      setProgressMeal(true);
+    } else {
+      setProgressMeal(false);
+    }
+  }, [dataRecipe[0]]);
+
+  const changeStatusRecipe = () => {
+    setRecipesInProgress([...recipesInProgress, dataRecipe[0]]);
+  };
 
   return (
     dataRecipe[0] !== undefined
@@ -78,15 +95,32 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
 
           {recomendation.length > 0
           && <RecomendationCard typeCard="drink" />}
-          <button
-            type="button"
-            data-testid="start-recipe-btn"
-            className="fixed-bottom"
-            onClick={ () => history.push(`/foods/${id}/in-progress`) }
-          >
-            Start Recipe
+          {progressMeal
+            ? (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="fixed-bottom"
+                onClick={ () => {
+                  history.push(`/foods/${id}/in-progress`);
+                } }
+              >
+                Continue Recipe
 
-          </button>
+              </button>)
+            : (
+              <button
+                type="button"
+                data-testid="start-recipe-btn"
+                className="fixed-bottom"
+                onClick={ () => {
+                  changeStatusRecipe();
+                  history.push(`/foods/${id}/in-progress`);
+                } }
+              >
+                Start Recipe
+
+              </button>)}
         </div>)
   );
 }

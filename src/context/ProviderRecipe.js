@@ -11,6 +11,7 @@ function ProviderRecipe({ children }) {
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [remove, setRemove] = useState(false);
   const [doneRecipesStorage, setDoneRecipesStorage] = useState([]);
+  const [recipesInProgress, setRecipesInProgress] = useState([]);
 
   const verifyUrlRecipe = (value, endpoint) => {
     if (endpoint === 'food') {
@@ -82,6 +83,8 @@ function ProviderRecipe({ children }) {
     remove,
     doneRecipesStorage,
     setDoneRecipesStorage,
+    recipesInProgress,
+    setRecipesInProgress,
   };
   return (
     <ContextRecipe.Provider

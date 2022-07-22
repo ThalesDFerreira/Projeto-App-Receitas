@@ -1,3 +1,7 @@
-.todo__item > input[type='checkbox']:checked  + label {
+.todo__item > input[type='checkbox']:checked  + p {
   text-decoration:line-through;
+}
+
+li {
+  list-style: none;
 }

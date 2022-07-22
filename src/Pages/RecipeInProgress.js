@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ShareAndFavorite from '../components/ShareAndFavorite';
@@ -9,24 +9,29 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
   const { dataRecipe,
     ingredientData,
     doneRecipesStorage, setDoneRecipesStorage,
-    setIngredientData } = useContext(ContextRecipe);
+    recipesInProgress,
+  } = useContext(ContextRecipe);
   const history = useHistory();
-  // const [btnDisabled, setBtnDisabled] = useState(true);
-  // const [checked, setChecked] = useState(false);
+  const [ingredientChecked, setIngredientChecked] = useState([]);
+  const [btnDisabled, setBtnDisabled] = useState(true);
 
-  function getChecked(name) {
-    return ingredientData.filter((i) => i === name).length !== 0;
-  }
-  const onHandleCheck = ({ target }) => {
-    if (getChecked(target.value)) {
-      const temp = ingredientData.filter((i) => i !== target.value);
-      setIngredientData(temp);
+  const onHandleCheck = ({ target: { checked } }) => {
+    console.log(recipesInProgress);
+    if (checked) {
+      setIngredientChecked([...ingredientChecked, checked]);
     } else {
-      const temp = [...ingredientData];
-      temp.push(target.value);
-      setIngredientData(temp);
+      const removeTrue = ingredientChecked.slice(1);
+      setIngredientChecked(removeTrue);
     }
   };
+
+  useEffect(() => {
+    if (ingredientChecked.length === ingredientData.length) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [ingredientChecked]);
 
   const sendDoneToStorage = () => {
     setDoneRecipesStorage([...doneRecipesStorage, dataRecipe[0]]);
@@ -78,8 +83,7 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
                 key={ index }
                 item={ ingredi }
                 index={ index }
-                checked={ getChecked(ingredi) }
-                onChange={ onHandleCheck }
+                onChange={ (e) => onHandleCheck(e) }
               />),
             )}
           </ul>
@@ -93,7 +97,7 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
             data-testid="finish-recipe-btn"
             className="fixed-bottom"
             onClick={ () => { sendDoneToStorage(); history.push('/done-recipes'); } }
-            // disabled={ btnDisabled }
+            disabled={ btnDisabled }
           >
             Finalizar Receita
 

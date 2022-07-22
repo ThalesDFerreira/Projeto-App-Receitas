@@ -1,22 +1,34 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import ContextRecipe from '../context/ContextRecipe';
-import MyContext from '../context/MyContext';
 import ShareAndFavorite from '../components/ShareAndFavorite';
 import ListCheck from '../components/ListCheck';
 
 function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) {
-  const { fetchRecipe, dataRecipe,
+  const { dataRecipe,
     ingredientData,
   } = useContext(ContextRecipe);
-  const { setTypeFood } = useContext(MyContext);
   const history = useHistory();
+  const [ingredientChecked, setIngredientChecked] = useState([]);
+  const [btnDisabled, setBtnDisabled] = useState(true);
+
+  const onHandleCheck = ({ target: { checked } }) => {
+    if (checked) {
+      setIngredientChecked([...ingredientChecked, checked]);
+    } else {
+      const removeTrue = ingredientChecked.slice(1);
+      setIngredientChecked(removeTrue);
+    }
+  };
 
   useEffect(() => {
-    setTypeFood('drink');
-    fetchRecipe(id, 'drink');
-  }, []);
+    if (ingredientChecked.length === ingredientData.length) {
+      setBtnDisabled(false);
+    } else {
+      setBtnDisabled(true);
+    }
+  }, [ingredientChecked]);
 
   return (
     (dataRecipe !== null && dataRecipe[0] !== undefined)
@@ -57,8 +69,9 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
             {ingredientData.map(
               (ingredi, index) => (<ListCheck
                 key={ index }
-                ingredient={ ingredi }
+                item={ ingredi }
                 index={ index }
+                onChange={ (e) => onHandleCheck(e) }
               />),
             )}
           </ul>
@@ -72,6 +85,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
             data-testid="start-recipe-btn"
             className="fixed-bottom w-100"
             onClick={ () => history.push('/done-recipes') }
+            disabled={ btnDisabled }
 
           >
             Finalizar Drink

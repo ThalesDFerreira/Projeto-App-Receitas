@@ -3,20 +3,28 @@ import './Style.css';
 import PropTypes from 'prop-types';
 import ContextRecipe from '../context/ContextRecipe';
 
-function ListCheck({ item, index, onChange, checked }) {
+function ListCheck({ item, index, onChange }) {
   const { measureIngredientData, ingredientData } = useContext(ContextRecipe);
   return (
     <li className="todo__item">
-      <input
-        className="todo__item"
-        type="checkbox"
-        key={ item }
-        data-testid={ `${index + 1}-ingredient-step` }
-        checked={ checked }
-        onChange={ onChange }
-      />
-      <label htmlFor="User" className="todo__item">
-        {`${ingredientData[index]} - ${measureIngredientData[index]}`}
+      <label
+        htmlFor={ `${item}${index}` }
+        className="todo__item d-flex align-self-baseline"
+      >
+
+        <input
+          id={ `${item}${index}` }
+          className="todo__item mx-2"
+          name={ item }
+          type="checkbox"
+          key={ item }
+          data-testid={ `${index + 1}-ingredient-step` }
+          onChange={ onChange }
+        />
+        <p>
+          {`${ingredientData[index]} - ${measureIngredientData[index]}`}
+
+        </p>
       </label>
     </li>
   );
