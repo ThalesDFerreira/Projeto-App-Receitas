@@ -5,23 +5,35 @@ import ShareAndFavorite from '../components/ShareAndFavorite';
 import ContextRecipe from '../context/ContextRecipe';
 import ListCheck from '../components/ListCheck';
 
-function RecipesInProgress({ match: { params: { id } }, location: { pathname } }) {
-  const { dataRecipe,
+function RecipesInProgress({
+  match: {
+    params: { id },
+  },
+  location: { pathname },
+}) {
+  const {
+    dataRecipe,
     ingredientData,
-    doneRecipesStorage, setDoneRecipesStorage,
-    recipesInProgress,
+    doneRecipesStorage,
+    setDoneRecipesStorage,
+    // recipesInProgress,
+    ingredientsContinue,
+    setIngredientsContinue,
   } = useContext(ContextRecipe);
   const history = useHistory();
   const [ingredientChecked, setIngredientChecked] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [ingredientCheckedName, setIngredientCheckedName] = useState([]);
 
-  const onHandleCheck = ({ target: { checked } }) => {
-    console.log(recipesInProgress);
+  const onHandleCheck = ({ target: { checked, name } }) => {
     if (checked) {
       setIngredientChecked([...ingredientChecked, checked]);
+      setIngredientCheckedName([...ingredientCheckedName, name]);
     } else {
       const removeTrue = ingredientChecked.slice(1);
       setIngredientChecked(removeTrue);
+      const filterIngredients = ingredientCheckedName.filter((item) => (item !== name));
+      setIngredientCheckedName(filterIngredients);
     }
   };
 
@@ -31,6 +43,10 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
     } else {
       setBtnDisabled(true);
     }
+    setIngredientsContinue({
+      ...ingredientsContinue,
+      [dataRecipe[0].strMeal]: ingredientCheckedName,
+    });
   }, [ingredientChecked]);
 
   const sendDoneToStorage = () => {
@@ -41,76 +57,64 @@ function RecipesInProgress({ match: { params: { id } }, location: { pathname } }
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesStorage));
   }, [doneRecipesStorage]);
   return (
-
-    dataRecipe[0] !== undefined
-
-      && (
-        <div>
-          <img
-            className="w-100"
-            data-testid="recipe-photo"
-            src={ dataRecipe[0].strMealThumb }
-            alt={ dataRecipe[0].strMeal }
-          />
-          <div className="d-flex justify-content-between">
-            <div>
-
-              <p data-testid="recipe-title">
-                {dataRecipe[0].strMeal}
-              </p>
-              <p data-testid="recipe-category">
-                {dataRecipe[0].strCategory}
-              </p>
-            </div>
-            <ShareAndFavorite
-              linkCopy={ pathname }
-              type="food"
-              id={ id }
-              area={ dataRecipe[0].strArea }
-              category={ dataRecipe[0].strCategory }
-              alcoholic=""
-              name={ dataRecipe[0].strMeal }
-              image={ dataRecipe[0].strMealThumb }
-              testid="share-btn"
-              favtestid="favorite-btn"
-
-            />
-
+    dataRecipe[0] !== undefined && (
+      <div>
+        <img
+          className="w-100"
+          data-testid="recipe-photo"
+          src={ dataRecipe[0].strMealThumb }
+          alt={ dataRecipe[0].strMeal }
+        />
+        <div className="d-flex justify-content-between">
+          <div>
+            <p data-testid="recipe-title">{dataRecipe[0].strMeal}</p>
+            <p data-testid="recipe-category">{dataRecipe[0].strCategory}</p>
           </div>
-          <ul>
-            {ingredientData.map(
-              (ingredi, index) => (<ListCheck
-                key={ index }
-                item={ ingredi }
-                index={ index }
-                onChange={ (e) => onHandleCheck(e) }
-              />),
-            )}
-          </ul>
-          <p
-            data-testid="instructions"
-          >
-            {dataRecipe[0].strInstructions}
-          </p>
-          <button
-            type="button"
-            data-testid="finish-recipe-btn"
-            className="fixed-bottom"
-            onClick={ () => { sendDoneToStorage(); history.push('/done-recipes'); } }
-            disabled={ btnDisabled }
-          >
-            Finalizar Receita
-
-          </button>
+          <ShareAndFavorite
+            linkCopy={ pathname }
+            type="food"
+            id={ id }
+            area={ dataRecipe[0].strArea }
+            category={ dataRecipe[0].strCategory }
+            alcoholic=""
+            name={ dataRecipe[0].strMeal }
+            image={ dataRecipe[0].strMealThumb }
+            testid="share-btn"
+            favtestid="favorite-btn"
+          />
         </div>
-      )
+        <ul>
+          {ingredientData.map((ingredi, index) => (
+            <ListCheck
+              key={ index }
+              item={ ingredi }
+              index={ index }
+              onChange={ (e) => onHandleCheck(e) }
+              nameRecipe={ dataRecipe[0].strMeal }
+            />
+          ))}
+        </ul>
+        <p data-testid="instructions">{dataRecipe[0].strInstructions}</p>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          className="fixed-bottom"
+          onClick={ () => {
+            sendDoneToStorage();
+            history.push('/done-recipes');
+          } }
+          disabled={ btnDisabled }
+        >
+          Finalizar Receita
+        </button>
+      </div>
+    )
   );
 }
 
 RecipesInProgress.propTypes = {
-  match: PropTypes.shape(
-    { params: PropTypes.shape({ id: PropTypes.string }) },
-  ).isRequired,
+  match: PropTypes.shape({ params: PropTypes.shape({ id: PropTypes.string }) })
+    .isRequired,
   location: PropTypes.shape({ pathname: PropTypes.string }).isRequired,
 };
 

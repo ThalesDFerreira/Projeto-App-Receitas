@@ -8,17 +8,23 @@ import ListCheck from '../components/ListCheck';
 function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) {
   const { dataRecipe,
     ingredientData,
+    ingredientsContinue,
+    setIngredientsContinue,
   } = useContext(ContextRecipe);
   const history = useHistory();
   const [ingredientChecked, setIngredientChecked] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(true);
+  const [ingredientCheckedName, setIngredientCheckedName] = useState([]);
 
-  const onHandleCheck = ({ target: { checked } }) => {
+  const onHandleCheck = ({ target: { checked, name } }) => {
     if (checked) {
       setIngredientChecked([...ingredientChecked, checked]);
+      setIngredientCheckedName([...ingredientCheckedName, name]);
     } else {
       const removeTrue = ingredientChecked.slice(1);
       setIngredientChecked(removeTrue);
+      const filterIngredients = ingredientCheckedName.filter((item) => (item !== name));
+      setIngredientCheckedName(filterIngredients);
     }
   };
 
@@ -28,6 +34,10 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
     } else {
       setBtnDisabled(true);
     }
+    setIngredientsContinue({
+      ...ingredientsContinue,
+      [dataRecipe[0].strDrink]: ingredientCheckedName,
+    });
   }, [ingredientChecked]);
 
   return (
