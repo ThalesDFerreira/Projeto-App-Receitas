@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import './Style.css';
 import PropTypes from 'prop-types';
 import ContextRecipe from '../context/ContextRecipe';
@@ -8,6 +8,16 @@ function ListCheck({ item, index, onChange }) {
     measureIngredientData,
     ingredientData,
   } = useContext(ContextRecipe);
+  const [traceLine, setTraceLine] = useState('');
+
+  const changeTraceLine = ({ target: { checked } }) => {
+    if (checked) {
+      setTraceLine('todo__item');
+    } else {
+      setTraceLine('');
+    }
+    console.log(checked);
+  };
 
   // const verifyIngredientesChecked = () => {
   //   if (ingredientsContinue[nameRecipe]) {
@@ -23,21 +33,21 @@ function ListCheck({ item, index, onChange }) {
   // }, [ingredientsContinue]);
 
   return (
-    <li className="todo__item">
+    <li className={ `${traceLine}` }>
       <label
         htmlFor={ `${item}${index}` }
-        className="todo__item d-flex align-self-baseline"
+        className="d-flex align-self-baseline"
         data-testid={ `${index}-ingredient-step` }
 
       >
         <input
           // checked={ verifyIngredientesChecked }
           id={ `${item}${index}` }
-          className="todo__item mx-2"
+          className="mx-2"
           name={ item }
           type="checkbox"
           key={ item }
-          onChange={ onChange }
+          onChange={ (e) => { onChange(e); changeTraceLine(e); } }
         />
         <p>{`${ingredientData[index]} - ${measureIngredientData[index]}`}</p>
       </label>
