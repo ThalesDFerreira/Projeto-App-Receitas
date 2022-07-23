@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import MyContext from '../context/MyContext';
@@ -11,12 +11,12 @@ function Profile() {
     if (localStorage.getItem('user')) {
       const result = JSON.parse(localStorage.getItem('user')).email;
       return result;
-    }
+    } return '';
   };
 
-  useEffect(() => {
-    getUserStorage();
-  }, []);
+  // useEffect(() => {
+  //   getUserStorage();
+  // }, []);
 
   return (
     <>
