@@ -6,7 +6,6 @@ function ProviderRecipe({ children }) {
   const TWENTY = 20;
   const [dataRecipe, setDataRecipe] = useState({});
   const [ingredientData, setIngredientData] = useState([]);
-  const [measureIngredientData, setMeasureIngredientData] = useState([]);
   const [recomendation, setRecomendation] = useState({});
   const [favoriteRecipes, setFavoriteRecipes] = useState([]);
   const [remove, setRemove] = useState(false);
