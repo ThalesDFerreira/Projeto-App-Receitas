@@ -23,6 +23,7 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
   useEffect(() => {
     if (localStorage.getItem('inProgressRecipes') && dataRecipe[0] !== undefined) {
       const result = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      setRecipesInProgress(result);
       const continueRecipe = Object
         .keys(result.meals).includes(dataRecipe[0].idMeal);
       if (continueRecipe) {

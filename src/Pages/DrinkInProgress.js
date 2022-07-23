@@ -21,16 +21,30 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
     if (checked) {
       setIngredientChecked([...ingredientChecked, checked]);
       setIngredientCheckedName([...ingredientCheckedName, name]);
+      localStorage.setItem('doneIngredients', JSON.stringify({
+        ...ingredientsContinue,
+        [id]: [...ingredientCheckedName, name],
+      }));
     } else {
       const removeTrue = ingredientChecked.slice(1);
       setIngredientChecked(removeTrue);
       const filterIngredients = ingredientCheckedName.filter((item) => (item !== name));
+      localStorage.setItem('doneIngredients', JSON.stringify({
+        ...ingredientsContinue,
+        [id]: filterIngredients,
+      }));
       setIngredientCheckedName(filterIngredients);
     }
   };
 
   useEffect(() => {
     fetchRecipe(id, 'drink');
+    if (localStorage.getItem('doneIngredients')
+    && JSON.parse(localStorage.getItem('doneIngredients'))[id]) {
+      const result = JSON.parse(localStorage.getItem('doneIngredients'));
+      setIngredientsContinue(result);
+      setIngredientCheckedName(result[id]);
+    }
   }, []);
 
   useEffect(() => {
@@ -42,10 +56,10 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
       }
       setIngredientsContinue({
         ...ingredientsContinue,
-        [dataRecipe[0].strDrink]: ingredientCheckedName,
+        [id]: ingredientCheckedName,
       });
     }
-  }, [ingredientChecked]);
+  }, [ingredientCheckedName]);
 
   return (
     dataRecipe[0] !== undefined
@@ -85,6 +99,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
           <ul>
             {ingredientData.map(
               (ingredi, index) => (<ListCheck
+                id={ id }
                 key={ index }
                 item={ ingredi }
                 index={ index }

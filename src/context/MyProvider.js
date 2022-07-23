@@ -48,6 +48,7 @@ function MyProvider({ children }) {
     localStorage.setItem('favoriteRecipes', JSON.stringify([]));
     localStorage.setItem('inProgressRecipes', JSON.stringify({ meals: {},
       cocktails: {} }));
+    localStorage.setItem('doneIngredients', JSON.stringify([]));
     localStorage.setItem('doneRecipes', JSON.stringify([]));
     history.push('/foods');
   };

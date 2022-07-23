@@ -22,43 +22,50 @@ function RecipesInProgress({
     fetchRecipe,
   } = useContext(ContextRecipe);
   const history = useHistory();
-  const [ingredientChecked, setIngredientChecked] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [ingredientCheckedName, setIngredientCheckedName] = useState([]);
 
   const onHandleCheck = ({ target: { checked, name } }) => {
+    console.log(ingredientCheckedName);
     if (checked) {
-      setIngredientChecked([...ingredientChecked, checked]);
       setIngredientCheckedName([...ingredientCheckedName, name]);
+      localStorage.setItem('doneIngredients', JSON.stringify({
+        ...ingredientsContinue,
+        [id]: [...ingredientCheckedName, name],
+      }));
     } else {
-      const removeTrue = ingredientChecked.slice(1);
-      setIngredientChecked(removeTrue);
       const filterIngredients = ingredientCheckedName.filter((item) => (item !== name));
+      localStorage.setItem('doneIngredients', JSON.stringify({
+        ...ingredientsContinue,
+        [id]: filterIngredients,
+      }));
       setIngredientCheckedName(filterIngredients);
     }
   };
 
   useEffect(() => {
     fetchRecipe(id, 'food');
+    if (localStorage.getItem('doneIngredients')
+      && JSON.parse(localStorage.getItem('doneIngredients'))[id]) {
+      const result = JSON.parse(localStorage.getItem('doneIngredients'));
+      setIngredientsContinue(result);
+      setIngredientCheckedName(result[id]);
+    }
   }, []);
 
   useEffect(() => {
-    console.log(dataRecipe);
-  }, [dataRecipe[0]]);
-
-  useEffect(() => {
     if (dataRecipe[0] !== undefined) {
-      if (ingredientChecked.length === ingredientData.length) {
+      if (ingredientCheckedName.length === ingredientData.length) {
         setBtnDisabled(false);
       } else {
         setBtnDisabled(true);
       }
       setIngredientsContinue({
         ...ingredientsContinue,
-        [dataRecipe[0].strMeal]: ingredientCheckedName,
+        [id]: ingredientCheckedName,
       });
     }
-  }, [ingredientChecked]);
+  }, [ingredientCheckedName]);
 
   const sendDoneToStorage = () => {
     setDoneRecipesStorage([...doneRecipesStorage, dataRecipe[0]]);
@@ -100,6 +107,7 @@ function RecipesInProgress({
         <ul>
           {ingredientData.map((ingredi, index) => (
             <ListCheck
+              id={ id }
               key={ index }
               item={ ingredi }
               index={ index }

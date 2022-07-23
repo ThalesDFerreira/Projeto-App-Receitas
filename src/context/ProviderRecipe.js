@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import ContextRecipe from './ContextRecipe';
 
@@ -24,26 +24,27 @@ function ProviderRecipe({ children }) {
     return `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${value}`;
   };
 
-  const fetchRecipe = async (value, type) => {
-    const result = await fetch(verifyUrlRecipe(value, type))
-      .then((response) => response.json());
-    setDataRecipe(type === 'food' ? result.meals : result.drinks);
-  };
-
-  const handleIngredientData = () => {
+  const handleIngredientData = (base) => {
     const resultIngredient = [];
     const resultMeasure = [];
     for (let index = 1; index <= TWENTY; index += 1) {
-      if (dataRecipe[0][`strIngredient${index}`] !== ''
-      && dataRecipe[0][`strIngredient${index}`] !== null
-      && dataRecipe[0][`strIngredient${index}`] !== undefined
+      if (base[0][`strIngredient${index}`] !== ''
+      && base[0][`strIngredient${index}`] !== null
+      && base[0][`strIngredient${index}`] !== undefined
       ) {
-        resultIngredient.push(dataRecipe[0][`strIngredient${index}`]);
-        resultMeasure.push(dataRecipe[0][`strMeasure${index}`]);
+        resultIngredient.push(base[0][`strIngredient${index}`]);
+        resultMeasure.push(base[0][`strMeasure${index}`]);
       }
     }
     setIngredientData(resultIngredient);
     setMeasureIngredientData(resultMeasure);
+  };
+
+  const fetchRecipe = async (value, type) => {
+    const result = await fetch(verifyUrlRecipe(value, type))
+      .then((response) => response.json());
+    setDataRecipe(type === 'food' ? result.meals : result.drinks);
+    handleIngredientData(type === 'food' ? result.meals : result.drinks);
   };
 
   const fetchRecomendation = async (endpoint) => {
@@ -67,13 +68,6 @@ function ProviderRecipe({ children }) {
   //     console.log('food');
   //   }
   // };
-
-  useEffect(() => {
-    if (dataRecipe[0]) {
-      handleIngredientData();
-    }
-  }, [dataRecipe]);
-
   const contextValue = {
     dataRecipe,
     fetchRecipe,

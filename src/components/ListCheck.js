@@ -1,39 +1,32 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Style.css';
 import PropTypes from 'prop-types';
 import ContextRecipe from '../context/ContextRecipe';
 
-function ListCheck({ item, index, onChange }) {
+function ListCheck({ item, index, onChange, id }) {
   const {
     measureIngredientData,
     ingredientData,
   } = useContext(ContextRecipe);
-  const [traceLine, setTraceLine] = useState('');
 
-  const changeTraceLine = ({ target: { checked } }) => {
-    if (checked) {
-      setTraceLine('todo__item');
-    } else {
-      setTraceLine('');
+  const verifyIngredientesChecked = () => {
+    if (localStorage.getItem('doneIngredients')
+    && JSON.parse(localStorage.getItem('doneIngredients'))[id]) {
+      const doneIngredients = JSON.parse(localStorage.getItem('doneIngredients'))[id];
+      const verifyNamesIngredients = doneIngredients.some(
+        (el) => el === item,
+      );
+      return verifyNamesIngredients;
     }
-    console.log(checked);
+    return false;
   };
 
-  // const verifyIngredientesChecked = () => {
-  //   if (ingredientsContinue[nameRecipe]) {
-  //     const verifyNamesIngredients = ingredientsContinue[nameRecipe].some(
-  //       (el) => el === item,
-  //     );
-  //     return verifyNamesIngredients;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   verifyIngredientesChecked();
-  // }, [ingredientsContinue]);
+  useEffect(() => {
+    verifyIngredientesChecked();
+  }, []);
 
   return (
-    <li className={ `${traceLine}` }>
+    <li className={ `${verifyIngredientesChecked() && 'todo__item'}` }>
       <label
         htmlFor={ `${item}${index}` }
         className="d-flex align-self-baseline"
@@ -41,13 +34,13 @@ function ListCheck({ item, index, onChange }) {
 
       >
         <input
-          // checked={ verifyIngredientesChecked }
+          checked={ verifyIngredientesChecked() }
           id={ `${item}${index}` }
-          className="mx-2"
+          className="mx-2 "
           name={ item }
           type="checkbox"
           key={ item }
-          onChange={ (e) => { onChange(e); changeTraceLine(e); } }
+          onChange={ (e) => { onChange(e); } }
         />
         <p>{`${ingredientData[index]} - ${measureIngredientData[index]}`}</p>
       </label>

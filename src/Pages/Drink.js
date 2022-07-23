@@ -24,6 +24,7 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
   useEffect(() => {
     if (localStorage.getItem('inProgressRecipes') && dataRecipe[0] !== undefined) {
       const result = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      setRecipesInProgress(result);
       const continueRecipe = Object
         .keys(result.cocktails).includes(dataRecipe[0].idDrink);
       if (continueRecipe) {
