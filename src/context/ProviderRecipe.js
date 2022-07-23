@@ -26,18 +26,16 @@ function ProviderRecipe({ children }) {
 
   const handleIngredientData = (base) => {
     const resultIngredient = [];
-    const resultMeasure = [];
     for (let index = 1; index <= TWENTY; index += 1) {
       if (base[0][`strIngredient${index}`] !== ''
       && base[0][`strIngredient${index}`] !== null
       && base[0][`strIngredient${index}`] !== undefined
       ) {
-        resultIngredient.push(base[0][`strIngredient${index}`]);
-        resultMeasure.push(base[0][`strMeasure${index}`]);
+        resultIngredient.push(`${base[0][`strIngredient${index}`]} 
+        - ${base[0][`strMeasure${index}`]}`);
       }
     }
     setIngredientData(resultIngredient);
-    setMeasureIngredientData(resultMeasure);
   };
 
   const fetchRecipe = async (value, type) => {
@@ -72,7 +70,6 @@ function ProviderRecipe({ children }) {
     dataRecipe,
     fetchRecipe,
     ingredientData,
-    measureIngredientData,
     fetchRecomendation,
     recomendation,
     favoriteRecipes,

@@ -7,7 +7,7 @@ import ShareAndFavorite from '../components/ShareAndFavorite';
 
 function Recipe({ match: { params: { id } }, location: { pathname } }) {
   const { fetchRecipe, dataRecipe,
-    ingredientData, measureIngredientData,
+    ingredientData,
     fetchRecomendation, recomendation,
     recipesInProgress, setRecipesInProgress,
   } = useContext(ContextRecipe);
@@ -89,7 +89,7 @@ function Recipe({ match: { params: { id } }, location: { pathname } }) {
                 key={ item }
                 data-testid={ `${index}-ingredient-name-and-measure` }
               >
-                {`${item} - ${measureIngredientData[index]}`}
+                {`${item}`}
               </li>))}
           </ul>
           <p

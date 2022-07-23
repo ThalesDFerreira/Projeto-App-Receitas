@@ -104,11 +104,16 @@ function FavoriteAndDoneCard({ dataProps, pageProps }) {
               {pageProps === 'done-recipes' && (
                 <>
                   <p data-testid={ `${index}-horizontal-done-date` }>
-                    {item.date}
+                    {item.doneDate}
                   </p>
-                  <p data-testid={ `${index}-${tagName}-horizontal-tag` }>
-                    {item.tags}
-                  </p>
+                  {item.tags.map((tag) => (
+                    <p
+                      key={ tag }
+                      data-testid={ `${index}-${tag}-horizontal-tag` }
+                    >
+                      {tag}
+                    </p>))}
+
                 </>
               )}
             </button>

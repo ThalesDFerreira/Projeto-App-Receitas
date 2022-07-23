@@ -11,11 +11,15 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
     ingredientsContinue,
     setIngredientsContinue,
     fetchRecipe,
+    doneRecipesStorage,
+    setDoneRecipesStorage,
   } = useContext(ContextRecipe);
   const history = useHistory();
   const [ingredientChecked, setIngredientChecked] = useState([]);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [ingredientCheckedName, setIngredientCheckedName] = useState([]);
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
 
   const onHandleCheck = ({ target: { checked, name } }) => {
     if (checked) {
@@ -49,7 +53,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
 
   useEffect(() => {
     if (dataRecipe[0] !== undefined) {
-      if (ingredientChecked.length === ingredientData.length) {
+      if (ingredientCheckedName.length === ingredientData.length) {
         setBtnDisabled(false);
       } else {
         setBtnDisabled(true);
@@ -60,6 +64,23 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
       });
     }
   }, [ingredientCheckedName]);
+
+  const sendDoneToStorage = () => {
+    const objDone = {
+      id,
+      type: 'drink',
+      nationality: '',
+      category: dataRecipe[0].strCategory,
+      alcoholicOrNot: dataRecipe[0].strAlcoholic,
+      name: dataRecipe[0].strDrink,
+      image: dataRecipe[0].strDrinkThumb,
+      doneDate: today.toLocaleDateString(),
+      tags: dataRecipe[0].strTags !== null ? dataRecipe[0].strTags.split(',') : [],
+    };
+    setDoneRecipesStorage([...doneRecipesStorage, objDone]);
+    localStorage
+      .setItem('doneRecipes', JSON.stringify([...doneRecipesStorage, objDone]));
+  };
 
   return (
     dataRecipe[0] !== undefined
@@ -116,7 +137,7 @@ function DrinkInProgress({ match: { params: { id } }, location: { pathname } }) 
             type="button"
             data-testid="finish-recipe-btn"
             className="fixed-bottom w-100"
-            onClick={ () => history.push('/done-recipes') }
+            onClick={ () => { sendDoneToStorage(); history.push('/done-recipes'); } }
             disabled={ btnDisabled }
 
           >

@@ -24,9 +24,10 @@ function RecipesInProgress({
   const history = useHistory();
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [ingredientCheckedName, setIngredientCheckedName] = useState([]);
+  const timeElapsed = Date.now();
+  const today = new Date(timeElapsed);
 
   const onHandleCheck = ({ target: { checked, name } }) => {
-    console.log(ingredientCheckedName);
     if (checked) {
       setIngredientCheckedName([...ingredientCheckedName, name]);
       localStorage.setItem('doneIngredients', JSON.stringify({
@@ -51,6 +52,9 @@ function RecipesInProgress({
       setIngredientsContinue(result);
       setIngredientCheckedName(result[id]);
     }
+    if (localStorage.getItem('doneRecipes')) {
+      setDoneRecipesStorage(JSON.parse(localStorage.getItem('doneRecipes')));
+    }
   }, []);
 
   useEffect(() => {
@@ -68,12 +72,21 @@ function RecipesInProgress({
   }, [ingredientCheckedName]);
 
   const sendDoneToStorage = () => {
-    setDoneRecipesStorage([...doneRecipesStorage, dataRecipe[0]]);
+    const objDone = {
+      id,
+      type: 'food',
+      nationality: dataRecipe[0].strArea,
+      category: dataRecipe[0].strCategory,
+      alcoholicOrNot: '',
+      name: dataRecipe[0].strMeal,
+      image: dataRecipe[0].strMealThumb,
+      doneDate: today.toLocaleDateString(),
+      tags: dataRecipe[0].strTags.split(','),
+    };
+    setDoneRecipesStorage([...doneRecipesStorage, objDone]);
+    localStorage
+      .setItem('doneRecipes', JSON.stringify([...doneRecipesStorage, objDone]));
   };
-
-  useEffect(() => {
-    localStorage.setItem('doneRecipes', JSON.stringify(doneRecipesStorage));
-  }, [doneRecipesStorage]);
 
   return (
     dataRecipe[0] !== undefined

@@ -5,7 +5,6 @@ import ContextRecipe from '../context/ContextRecipe';
 
 function ListCheck({ item, index, onChange, id }) {
   const {
-    measureIngredientData,
     ingredientData,
   } = useContext(ContextRecipe);
 
@@ -42,7 +41,7 @@ function ListCheck({ item, index, onChange, id }) {
           key={ item }
           onChange={ (e) => { onChange(e); } }
         />
-        <p>{`${ingredientData[index]} - ${measureIngredientData[index]}`}</p>
+        <p>{`${ingredientData[index]}`}</p>
       </label>
     </li>
   );
