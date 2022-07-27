@@ -15,7 +15,7 @@ function Recipes() {
 
   return (
     <>
-      <Header titlePage="Foods" hasSearch />
+      <Header titlePage="Meals" hasSearch />
       <Filter />
       <FoodCard
         base={ dataFiltered }
@@ -23,7 +23,6 @@ function Recipes() {
         page="principal"
         typeCard="food"
       />
-
       <Footer />
     </>
   );

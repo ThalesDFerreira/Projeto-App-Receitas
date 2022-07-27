@@ -1,3 +1,7 @@
+p {
+  font-family: 'Quicksand', sans-serif;
+}
+
 .recomendation-scroll {
   display: flex;
   overflow-x: auto;
@@ -7,6 +11,61 @@
   min-width: 50%;
 }
 
-.recomendation2, .recomendation3, .recomendation4, .recomendation5 {
-  visibility: hidden;
+.login-page {
+  background-image: url('./images/bg-login.jpeg');
+  background-size: cover;
 }
+
+.title-app {
+  font-family: 'Cormorant SC', serif;
+  color: rgb(255, 162, 133);
+}
+
+input {
+  transition: all .4s ease-in-out;
+}
+
+.login-input {
+  border-bottom: 1px solid rgb(128, 128, 128);
+  background-color: #FDF5EA;
+}
+
+input:focus {
+  outline: none;
+  transform: scale(1.01);
+}
+
+.login-button {
+  transition: all .4s ease-in-out;
+}
+
+.login-button:enabled:hover {
+  transform: scale(1.05);
+}
+
+.page-title {
+  font-family: 'Lobster', cursive;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border-top: 3px solid rgb(255, 162, 133);
+  border-right: 3px solid transparent;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 

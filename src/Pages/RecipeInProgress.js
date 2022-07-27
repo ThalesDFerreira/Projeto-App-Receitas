@@ -92,16 +92,32 @@ function RecipesInProgress({
     dataRecipe[0] !== undefined
 
     && (
-      <div>
+      <div
+        className="bg-slate-100"
+      >
         <img
-          className="w-100"
+          className="w-screen
+          rounded-lg
+          "
           data-testid="recipe-photo"
           src={ dataRecipe[0].strMealThumb }
           alt={ dataRecipe[0].strMeal }
         />
-        <div className="d-flex justify-content-between">
-          <div>
-            <p data-testid="recipe-title">{dataRecipe[0].strMeal}</p>
+        <div
+          className="d-flex justify-content-between
+          my-3
+          mx-2
+          "
+        >
+          <div
+            className="mx-3"
+          >
+            <p
+              data-testid="recipe-title"
+              className="text-3xl m-0"
+            >
+              {dataRecipe[0].strMeal}
+            </p>
             <p data-testid="recipe-category">{dataRecipe[0].strCategory}</p>
           </div>
           <ShareAndFavorite
@@ -117,7 +133,14 @@ function RecipesInProgress({
             favtestid="favorite-btn"
           />
         </div>
-        <ul>
+        <ul
+          className="mx-4"
+        >
+          <p
+            className="text-2xl"
+          >
+            Ingredients
+          </p>
           {ingredientData.map((ingredi, index) => (
             <ListCheck
               id={ id }
@@ -129,15 +152,33 @@ function RecipesInProgress({
             />
           ))}
         </ul>
-        <p
-          data-testid="instructions"
+        <div
+          className="mx-3
+            text-justify
+            mb-12
+            "
         >
-          {dataRecipe[0].strInstructions}
-        </p>
+          <p
+            className="text-2xl"
+          >
+            Instructions
+          </p>
+          <p
+            data-testid="instructions"
+          >
+            {dataRecipe[0].strInstructions}
+          </p>
+        </div>
         <button
           type="button"
           data-testid="finish-recipe-btn"
-          className="fixed-bottom"
+          className="fixed-bottom
+                disabled:bg-red-400
+                bg-red-500
+                py-2
+                text-white
+                text-2xl
+                "
           onClick={ () => {
             sendDoneToStorage();
             history.push('/done-recipes');

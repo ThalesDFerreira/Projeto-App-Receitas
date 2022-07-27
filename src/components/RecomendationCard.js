@@ -14,7 +14,10 @@ function RecomendationCard({ typeCard }) {
         index < SIX
         && (
           <div
-            className={ `mb-3 recomendation${index}` }
+            className="mb-3 w-1/2
+            flex flex-col
+            p-2
+            "
             key={ typeCard === 'food'
               ? `${item.strMeal}${item.idMeal}${index}`
               : `${item.idDrink}${item.strDrink}${index}` }
@@ -24,7 +27,7 @@ function RecomendationCard({ typeCard }) {
               src={ typeCard === 'food' ? item.strMealThumb : item.strDrinkThumb }
               name={ typeCard === 'food' ? item.idMeal : item.idDrink }
               alt={ typeCard === 'food' ? item.strMeal : item.strDrink }
-              className="w-75 align-self-center"
+              className="align-self-center"
             />
             <p
               data-testid={ `${index}-recomendation-title` }

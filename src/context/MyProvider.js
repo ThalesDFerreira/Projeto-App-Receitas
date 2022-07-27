@@ -16,6 +16,7 @@ function MyProvider({ children }) {
   const [categoriesFilter, setCategoriesFilter] = useState([]);
   const [typeFood, setTypeFood] = useState('food');
   const [buttonFilter, setButtonFilter] = useState('');
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
 
   const enableButton = () => {
@@ -109,6 +110,7 @@ function MyProvider({ children }) {
 
   useEffect(() => {
     verifyMeals();
+    setLoading(false);
   }, [dataFiltered]);
 
   const searchMeal = ({ target: { value } }) => {
@@ -120,6 +122,7 @@ function MyProvider({ children }) {
   };
 
   const fetchAPI = async (type) => {
+    setLoading(true);
     if (type === 'food') {
       const resultMeal = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=')
         .then((response) => response.json());
@@ -191,6 +194,7 @@ function MyProvider({ children }) {
     handleFavoriteRecipes,
     localClear,
     redirectDetails,
+    loading,
   };
 
   return (

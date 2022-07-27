@@ -52,17 +52,31 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
     (dataRecipe !== null && dataRecipe[0] !== undefined)
 
       && (
-        <div>
+        <div
+          className="bg-slate-100"
+        >
           <img
-            className="w-100"
+            className="w-screen
+            rounded-lg
+            "
             data-testid="recipe-photo"
             src={ dataRecipe[0].strDrinkThumb }
             alt={ dataRecipe[0].strDrink }
           />
-          <div className="d-flex justify-content-between">
-            <div>
+          <div
+            className="d-flex justify-content-between
+          my-3
+          mx-2
+          "
+          >
+            <div
+              className="mx-3"
+            >
 
-              <p data-testid="recipe-title">
+              <p
+                data-testid="recipe-title"
+                className="text-3xl m-0"
+              >
                 {dataRecipe[0].strDrink}
               </p>
               <p data-testid="recipe-category">
@@ -83,7 +97,14 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
 
             />
           </div>
-          <ul>
+          <ul
+            className="mx-4"
+          >
+            <p
+              className="text-2xl"
+            >
+              Ingredients
+            </p>
             {ingredientData.map((item, index) => (
               <li
                 key={ item }
@@ -92,19 +113,45 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
                 {`${item}`}
               </li>))}
           </ul>
-          <p
-            data-testid="instructions"
+          <div
+            className="mx-3
+            text-justify
+            "
           >
-            {dataRecipe[0].strInstructions}
-          </p>
+            <p
+              className="text-2xl"
+            >
+              Instructions
+            </p>
+            <p
+              data-testid="instructions"
+            >
+              {dataRecipe[0].strInstructions}
+            </p>
+          </div>
           {recomendation.length > 0
-          && <RecomendationCard typeCard="food" />}
+          && (
+            <div
+              className="mx-3 my-3"
+            >
+              <p
+                className="text-2xl"
+              >
+                Recomendation
+              </p>
+              <RecomendationCard typeCard="food" />
+            </div>)}
           {progressDrink
             ? (
               <button
                 type="button"
                 data-testid="start-recipe-btn"
-                className="fixed-bottom"
+                className="fixed-bottom
+                bg-red-500
+                py-2
+                text-white
+                text-2xl
+                "
                 onClick={ () => {
                   history.push(`/drinks/${id}/in-progress`);
                 } }
@@ -116,7 +163,12 @@ function Drink({ match: { params: { id } }, location: { pathname } }) {
               <button
                 type="button"
                 data-testid="start-recipe-btn"
-                className="fixed-bottom"
+                className="fixed-bottom
+                bg-red-400
+                py-2
+                text-white
+                text-2xl
+                "
                 onClick={ () => {
                   changeStatusRecipe();
                   history.push(`/drinks/${id}/in-progress`);

@@ -48,39 +48,49 @@ function FilterCard() {
   }, [categoriesMealToggle]);
 
   return (
-    <>
-      <label htmlFor="categorieList">
-        Categoria:
-
-        {categoriesFilter.map((cat, index) => (
-          index < five
+    <div
+      className="flex flex-wrap m-1"
+    >
+      {categoriesFilter.map((cat, index) => (
+        index < five
     && (
-
       <button
         name={ cat.strCategory }
         key={ `${cat.strCategory}${index}` }
         type="button"
         value={ cat.strCategory }
-        className={ buttonPressed[cat.strCategory] === true
-          ? 'border border-dark' : 'border-0' }
+        className={ `
+          bg-slate-400
+          px-2
+          rounded-lg
+          text-white
+          m-1
+        ${buttonPressed[cat.strCategory] === true
+        && 'bg-slate-600'}` }
         data-testid={ `${cat.strCategory}-category-filter` }
         onClick={ (e) => { handleCategories(e); } }
       >
         {cat.strCategory}
-
       </button>
     )
-        ))}
-      </label>
+      ))}
       <button
         type="button"
         data-testid="All-category-filter"
         name="filterButton"
         onClick={ (e) => { resetFood(e); handleButtonFilter(e); } }
+        className="
+        w-fit
+          bg-slate-400
+          px-2
+          rounded-lg
+          text-white
+          m-1
+          "
       >
         All
       </button>
-    </>
+    </div>
   );
 }
 

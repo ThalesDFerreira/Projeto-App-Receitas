@@ -5,39 +5,67 @@ function Login() {
   const { handleChange, isDisabled, handleSubmit } = useContext(MyContext);
 
   return (
-    <div>
-      <h1>Login</h1>
-      <br />
-      <label htmlFor="email">
-        <h1> Email :</h1>
+    <div
+      className="flex flex-col
+      h-screen
+      justify-center
+      items-center
+      login-page
+      "
+    >
+      <p
+        className="title-app
+        text-5xl"
+      >
+        TastyFood
+
+      </p>
+      <div
+        className="flex flex-col
+
+        "
+      >
+
         <input
           type="email"
           id="email"
           data-testid="email-input"
           name="email"
           onChange={ handleChange }
+          placeholder="Email"
+          className="login-input
+          "
         />
-      </label>
-      <br />
-      <label htmlFor="senha">
-        <h1> Senha :</h1>
+
+        <br />
         <input
           type="password"
           id="senha"
           data-testid="password-input"
           name="password"
           onChange={ handleChange }
+          placeholder="Password"
+          className="login-input"
+
         />
-      </label>
-      <br />
-      <button
-        type="button"
-        data-testid="login-submit-btn"
-        disabled={ isDisabled }
-        onClick={ handleSubmit }
-      >
-        Entrar
-      </button>
+        <br />
+        <button
+          type="button"
+          data-testid="login-submit-btn"
+          disabled={ isDisabled }
+          onClick={ handleSubmit }
+          className="login-button
+        w-full
+        py-1
+        rounded-lg
+        bg-red-500
+        disabled:bg-red-300
+        text-white
+        "
+        >
+          Entrar
+        </button>
+      </div>
     </div>
   );
 }

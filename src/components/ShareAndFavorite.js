@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import shareIcon from '../images/shareIcon.svg';
-import whiteHeartIcon from '../images/whiteHeartIcon.svg';
-import blackHeartIcon from '../images/blackHeartIcon.svg';
+import shareIcon from '../images/share.png';
+import whiteHeartIcon from '../images/like.png';
+import blackHeartIcon from '../images/blackHeartIcon.png';
 import BASE_URL from '../helpers';
 import ContextRecipe from '../context/ContextRecipe';
 
@@ -88,28 +88,43 @@ function ShareAndFavorite({
   }, [showCopy]);
 
   return (
-    <div>
-      <button
-        type="button"
-        data-testid={ testid }
-        src={ shareIcon }
-        onClick={ () => {
-          intervalMensage();
-        } }
+    <div
+      className="flex flex-col"
+    >
+      <div
+        className="flex"
+      >
 
-      >
-        <img src={ shareIcon } alt="Share" />
-      </button>
-      <button
-        type="button"
-        data-testid={ favtestid }
-        onClick={ checkFavorite }
-        src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
-      >
-        <img src={ isFavorite ? blackHeartIcon : whiteHeartIcon } alt="Favorite" />
-      </button>
+        <button
+          type="button"
+          data-testid={ testid }
+          src={ shareIcon }
+          onClick={ () => {
+            intervalMensage();
+          } }
+          className="w-8"
+
+        >
+          <img src={ shareIcon } alt="Share" />
+        </button>
+        <button
+          type="button"
+          data-testid={ favtestid }
+          onClick={ checkFavorite }
+          className="w-8 mx-3"
+          src={ isFavorite ? blackHeartIcon : whiteHeartIcon }
+        >
+          <img src={ isFavorite ? blackHeartIcon : whiteHeartIcon } alt="Favorite" />
+        </button>
+      </div>
       {showCopy
-      && <p>Link copied!</p>}
+      && (
+        <p
+          className="m-0 p-0"
+        >
+          Link copied!
+
+        </p>)}
     </div>
   );
 }

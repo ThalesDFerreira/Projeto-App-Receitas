@@ -41,7 +41,12 @@ function ListCheck({ item, index, onChange, id }) {
           key={ item }
           onChange={ (e) => { onChange(e); } }
         />
-        <p>{`${ingredientData[index]}`}</p>
+        <p
+          className="m-0"
+        >
+          {`${ingredientData[index]}`}
+
+        </p>
       </label>
     </li>
   );
